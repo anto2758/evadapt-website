@@ -24,7 +24,7 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
       {/* Inner wrapper that becomes a box on scroll */}
       <div
         className={[
-          "border transition-[margin,width,border-radius,background-color,box-shadow,backdrop-filter] duration-300 ease-out",
+          "border",
           scrolled
             ? [
                 "mx-4 mt-4 w-[calc(100%-2rem)] soft-small-shadow",
@@ -35,7 +35,7 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
       >
         <div
           className={[
-            "grid grid-cols-[auto_1fr_auto] items-center w-full transition-all duration-300",
+            "grid grid-cols-[auto_1fr_auto] items-center w-full",
             scrolled ? "px-3 py-3" : "px-4 py-4",
           ].join(" ")}
         >
