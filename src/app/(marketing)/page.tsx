@@ -44,15 +44,15 @@ function OverlayWord({
   index: number;
   progress: MotionValue<number>;
 }) {
-  const start = 0.08 + index * 0.12;
-  const end = start + 0.16;
+  const start = 0.03 + index * 0.04;
+  const end = start + 0.055;
   const opacity = useTransform(progress, [start, end], [0, 1]);
   const y = useTransform(progress, [start, end], [18, 0]);
 
   return (
     <motion.span
       style={{ opacity, y, ...(accent ? accentWordStyle : undefined) }}
-      className="inline-block pr-[0.28em]"
+      className="inline-block overflow-visible pr-[0.28em] pb-[0.22em]"
     >
       {text}
     </motion.span>
@@ -132,7 +132,7 @@ function HeroStage() {
           style={{ y: overlayY, opacity: overlayOpacity }}
           className="absolute inset-0 z-20 rounded-t-[28px] bg-[#121110]"
         >
-          <p className="max-w-[14ch] px-6 pt-16 text-left text-[36px] font-medium leading-[1.05] tracking-[-0.04em] text-[#f4f3ef] sm:px-12 sm:pt-20 sm:text-[52px] lg:px-20">
+          <p className="whitespace-nowrap px-6 pt-16 pb-4 text-left text-[clamp(1.25rem,4.2vw,3.25rem)] font-medium leading-[1.45] tracking-[-0.03em] text-[#f4f3ef] sm:px-12 sm:pt-20 lg:px-20">
             {OVERLAY_LINE.map((word, index) => (
               <OverlayWord
                 key={word.text}
