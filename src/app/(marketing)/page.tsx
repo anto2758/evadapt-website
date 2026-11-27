@@ -34,9 +34,15 @@ function HeroStage() {
       <div className="sticky top-0 h-dvh overflow-hidden">
         <motion.div style={{ filter: heroFilter }} className="relative z-10">
           <main>
-            <section className="px-6 pb-20 pt-[186px] text-left sm:px-12 sm:pb-28 sm:pt-[190px] lg:px-20">
+            <section className="px-6 pb-20 pt-[248px] text-left sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
               <h1 className="max-w-[14ch] text-[48px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#f4f3ef] sm:text-[70px] lg:text-[88px]">
-                Evadapt ML Lab exploration.
+                <span
+                  className="italic tracking-normal text-[#ff7e00]"
+                  style={{ fontFamily: "var(--font-lora)" }}
+                >
+                  Evadapt
+                </span>{" "}
+                ML Lab exploration.
               </h1>
               <div className="mt-9 flex">
                 <MarketingPrimaryCta
@@ -51,7 +57,7 @@ function HeroStage() {
         <motion.div
           data-marketing-overlay
           style={{ y: overlayY }}
-          className="absolute inset-0 z-20 rounded-t-[28px] bg-[#050505]"
+          className="absolute inset-0 z-20 rounded-t-[28px] bg-[#2a2926]"
         />
       </div>
     </div>

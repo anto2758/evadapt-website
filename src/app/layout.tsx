@@ -2,7 +2,7 @@ import { type Metadata, type Viewport } from "next";
 import "./globals.css";
 import { PropsWithChildren } from "react";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
-import { fontInter } from "./fonts";
+import { fontInter, fontLora } from "./fonts";
 
 export const metadata: Metadata = {
   metadataBase: SITE_URL,
@@ -32,7 +32,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en" className={fontInter.variable}>
+    <html lang="en" className={`${fontInter.variable} ${fontLora.variable}`}>
       <body>{children}</body>
     </html>
   );

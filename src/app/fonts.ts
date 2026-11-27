@@ -15,3 +15,15 @@ export const fontInter = localFont({
   variable: "--font-inter",
   display: "swap",
 });
+
+export const fontLora = localFont({
+  src: [
+    {
+      path: "../fonts/lora/lora-latin-italic.woff2",
+      weight: "400 700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-lora",
+  display: "swap",
+});
