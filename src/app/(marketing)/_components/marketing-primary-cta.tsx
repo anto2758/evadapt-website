@@ -23,7 +23,11 @@ export function MarketingPrimaryCta({
   );
 
   if (variant === "raised") {
-    return <Button1 className={className}>{content}</Button1>;
+    return (
+      <Button1 theme="dark" className={className}>
+        {content}
+      </Button1>
+    );
   }
 
   return (

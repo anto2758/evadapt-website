@@ -9,6 +9,7 @@ import {
   useState,
   type Dispatch,
   type ReactNode,
+  type RefObject,
   type SetStateAction,
 } from "react";
 
@@ -16,7 +17,20 @@ import GhostFibers from "@/components/ghost-fibers";
 
 import { Navbar } from "./navbar";
 
-export const DEFAULT_MARKETING_BACKGROUND = "#fdfdfd";
+export const DEFAULT_MARKETING_BACKGROUND = "#10100e";
+
+export const MarketingScrollContext =
+  createContext<RefObject<HTMLDivElement | null> | null>(null);
+
+export function useMarketingScrollContainer() {
+  const ref = useContext(MarketingScrollContext);
+  if (!ref) {
+    throw new Error(
+      "useMarketingScrollContainer must be used within MarketingPageShell"
+    );
+  }
+  return ref;
+}
 
 type MarketingPageTheme = {
   background: string;
@@ -67,32 +81,36 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
 
   return (
     <MarketingPageThemeContext.Provider value={theme}>
-      <div
-        ref={scrollSurfaceRef}
-        data-marketing-page-scroll-surface
-        data-scrolled={scrolled ? "true" : "false"}
-        data-marketing-background={background}
-        className="relative z-0 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto text-[#242421] transition-[background-color] duration-[600ms] ease-out"
-        style={{ backgroundColor: background }}
-      >
-        <div className="pointer-events-none fixed inset-0 -z-10">
-          <GhostFibers
-            glowColor="#ff7e00"
-            layers={3}
-            twist={1.2}
-            threads={72}
-            fiberStyle="dots"
-            depthOfField={0.85}
-            hoverEffect="focus"
-            intro
-            mouseInteraction
-            lineColor="#ff4f00"
-            secondaryColor="#ff5121"
-          />
+      <MarketingScrollContext.Provider value={scrollSurfaceRef}>
+        <div
+          ref={scrollSurfaceRef}
+          data-marketing-page-scroll-surface
+          data-scrolled={scrolled ? "true" : "false"}
+          data-marketing-background={background}
+          className="relative z-0 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto text-[#f4f3ef] transition-[background-color] duration-[600ms] ease-out"
+          style={{ backgroundColor: background }}
+        >
+          <div className="pointer-events-none fixed inset-0 z-0">
+            <GhostFibers
+              glowColor="#ff7e00"
+              layers={3}
+              twist={1.2}
+              threads={72}
+              fiberStyle="dots"
+              depthOfField={0.85}
+              hoverEffect="focus"
+              intro
+              mouseInteraction
+              lineColor="#ff4f00"
+              secondaryColor="#ff5121"
+            />
+          </div>
+          <div className="relative z-10">
+            <Navbar scrolled={scrolled} />
+            {children}
+          </div>
         </div>
-        <Navbar scrolled={scrolled} />
-        {children}
-      </div>
+      </MarketingScrollContext.Provider>
     </MarketingPageThemeContext.Provider>
   );
 }

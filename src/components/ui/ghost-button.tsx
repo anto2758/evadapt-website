@@ -27,7 +27,7 @@ const GhostButton: React.FC<GhostButtonProps> = ({
       style={style}
       className={`
                 bg-transparent text-deemphasized transition-colors duration-300 text-[14px] px-[12px] py-[9px] rounded-[4px] space-x-2
-                hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-ink
+                hover:bg-white/10 dark:hover:bg-white/10 hover:text-white dark:hover:text-ink
                 ${className}
             `}
       role={as === "div" ? "button" : undefined}

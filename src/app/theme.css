@@ -1,14 +1,14 @@
 /* Shared workspace colors used by the marketing header and hero. */
 :root {
-  color-scheme: light;
-  --surface: #ffffff;
-  --raised: #f7f7f6;
-  --chrome: #f1f2f3;
-  --edge: #e4e4e2;
-  --outline: #e5e5e5;
-  --ink: #1c1d1f;
-  --subtle: #666560;
-  --muted: #969590;
+  color-scheme: dark;
+  --surface: #1c1c1a;
+  --raised: #262622;
+  --chrome: #141412;
+  --edge: #3a3a36;
+  --outline: #3a3a36;
+  --ink: #f4f3ef;
+  --subtle: #b7b6b0;
+  --muted: #8e8d87;
 }
 
 @theme inline {
