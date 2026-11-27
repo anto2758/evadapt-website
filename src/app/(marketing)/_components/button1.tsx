@@ -8,6 +8,7 @@ interface Button1Props {
   className?: string;
   disabled?: boolean;
   theme?: string;
+  fill?: string;
   buttonUrl?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   colors?: {
@@ -45,6 +46,7 @@ export const Button1: React.FC<Button1Props> = ({
   className,
   disabled = false,
   theme,
+  fill,
   buttonUrl,
   onClick,
   colors,
@@ -53,7 +55,7 @@ export const Button1: React.FC<Button1Props> = ({
   const [pressed, setPressed] = useState(false);
 
   const isDark = theme === "dark";
-  const bg = isDark ? darkBg : lightBg;
+  const bg = fill ?? (isDark ? darkBg : lightBg);
   const text = isDark ? darkText : lightText;
 
   const colorHex = colors?.primary;

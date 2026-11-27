@@ -18,12 +18,13 @@ function HeroStage() {
     offset: ["start start", "end end"],
   });
   const weightedScroll = useSpring(scrollYProgress, {
-    stiffness: 32,
-    damping: 18,
-    mass: 2.4,
+    stiffness: 42,
+    damping: 22,
+    mass: 1.9,
     restDelta: 0.001,
   });
   const overlayY = useTransform(weightedScroll, [0, 1], ["93%", "0%"]);
+  const overlayOpacity = useTransform(weightedScroll, [0, 1], [0.5, 1]);
   const heroFilter = useTransform(weightedScroll, [0, 1], [
     "blur(0px)",
     "blur(16px)",
@@ -46,12 +47,24 @@ function HeroStage() {
                     backgroundClip: "text",
                     color: "transparent",
                     filter:
-                      "drop-shadow(0 1px 0 rgba(255, 226, 186, 0.32)) drop-shadow(0 2px 1px rgba(72, 26, 0, 0.48))",
+                      "drop-shadow(0 1px 0 rgba(255, 236, 214, 0.5)) drop-shadow(0 3px 0 rgba(110, 38, 0, 0.42)) drop-shadow(0 5px 3px rgba(30, 10, 0, 0.38))",
                   }}
                 >
                   Evadapt
                 </span>{" "}
-                ML Lab exploration.
+                <span
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(175deg, #ffffff 0%, #f4f1ea 48%, #c9c4b8 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                    filter:
+                      "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.42)) drop-shadow(0 3px 1px rgba(0, 0, 0, 0.42))",
+                  }}
+                >
+                  ML Lab exploration.
+                </span>
               </h1>
               <div className="mt-9 flex">
                 <MarketingPrimaryCta
@@ -65,7 +78,7 @@ function HeroStage() {
         </motion.div>
         <motion.div
           data-marketing-overlay
-          style={{ y: overlayY }}
+          style={{ y: overlayY, opacity: overlayOpacity }}
           className="absolute inset-0 z-20 rounded-t-[28px] bg-[#161513]"
         />
       </div>
