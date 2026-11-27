@@ -35,10 +35,19 @@ function HeroStage() {
         <motion.div style={{ filter: heroFilter }} className="relative z-10">
           <main>
             <section className="px-6 pb-20 pt-[248px] text-left sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
-              <h1 className="max-w-[14ch] text-[48px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#f4f3ef] sm:text-[70px] lg:text-[88px]">
+              <h1 className="max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#f4f3ef] sm:text-[70px] lg:text-[88px]">
                 <span
-                  className="italic tracking-normal text-[#ff7e00]"
-                  style={{ fontFamily: "var(--font-lora)" }}
+                  className="italic tracking-normal"
+                  style={{
+                    fontFamily: "var(--font-lora)",
+                    backgroundImage:
+                      "linear-gradient(168deg, #ffd7a1 0%, #ff7e00 46%, #e24a00 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                    filter:
+                      "drop-shadow(0 1px 0 rgba(255, 226, 186, 0.32)) drop-shadow(0 2px 1px rgba(72, 26, 0, 0.48))",
+                  }}
                 >
                   Evadapt
                 </span>{" "}
@@ -57,7 +66,7 @@ function HeroStage() {
         <motion.div
           data-marketing-overlay
           style={{ y: overlayY }}
-          className="absolute inset-0 z-20 rounded-t-[28px] bg-[#2a2926]"
+          className="absolute inset-0 z-20 rounded-t-[28px] bg-[#161513]"
         />
       </div>
     </div>

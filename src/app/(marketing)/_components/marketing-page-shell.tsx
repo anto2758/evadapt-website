@@ -106,7 +106,7 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(90deg, #000 0%, rgba(0,0,0,0.55) 14%, rgba(0,0,0,0) 40%)",
+                  "linear-gradient(90deg, #000 0%, rgba(0,0,0,0.62) 22%, rgba(0,0,0,0) 52%)",
               }}
             />
           </div>
