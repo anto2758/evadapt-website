@@ -19,10 +19,10 @@ function resolveSiteUrl() {
 }
 
 export const SITE_URL = resolveSiteUrl();
-export const SITE_NAME = "Graphite";
-export const SITE_TITLE = "Graphite";
+export const SITE_NAME = "Evadapt";
+export const SITE_TITLE = "Evadapt";
 export const SITE_DESCRIPTION =
-  "Write notes together, share course materials, solve assignments, and study with an AI tutor in one free collaborative workspace.";
+  "BatchWise ML Lab exploration shell — co-founder workbench for synthetic fed-batch control research.";
 
 export function absoluteSiteUrl(path = "/") {
   return new URL(path, SITE_URL).toString();

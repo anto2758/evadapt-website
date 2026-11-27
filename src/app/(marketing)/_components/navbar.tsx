@@ -47,9 +47,9 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
                 "flex items-center gap-2 font-semibold leading-none select-none transition-all duration-300",
               ].join(" ")}
             >
-              <img alt="" height={32} width={32} src={"/blackLogo.png"} />
+              <img alt="Evadapt" height={32} width={32} src={"/blackLogo.png"} />
               <span className="text-[14px] tracking-[-0.02em] text-[#242421]">
-                Graphite
+                Evadapt
               </span>
             </Link>
           </div>
@@ -62,19 +62,19 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
             ].join(" ")}
           >
             <Link href="/tools" className="hover:text-black transition-colors">
-              Maths tools
+              Simulations
             </Link>
             <Link
               href="/#resources"
               className="hover:text-black transition-colors"
             >
-              Resources
+              World models
             </Link>
             <Link
               href="/#use-cases"
               className="hover:text-black transition-colors"
             >
-              Use-cases
+              Safety
             </Link>
             <Link
               href="/privacy"
@@ -97,7 +97,7 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
             <span className="hidden sm:inline-flex">
               <GhostButton label="Log in" style={{ color: "#000000" }} />
             </span>
-            <Button1 theme={"light"} buttonText={"Start for free"} />
+            <Button1 theme={"light"} buttonText={"Open the lab"} />
           </div>
         </div>
       </div>
