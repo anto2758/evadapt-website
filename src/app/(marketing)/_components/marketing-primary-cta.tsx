@@ -26,8 +26,8 @@ export function MarketingPrimaryCta({
     return (
       <Button1
         theme="dark"
-        fill="linear-gradient(180deg, #fff6ee 0%, #f4c99a 100%)"
-        colors={{ primary: "#ff7e00" }}
+        fill="linear-gradient(180deg, #f7f5f3 0%, #efe6de 100%)"
+        colors={{ primary: "#e8b48a" }}
         className={className}
       >
         {content}
