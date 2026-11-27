@@ -12,6 +12,8 @@ import {
   type SetStateAction,
 } from "react";
 
+import GhostFibers from "@/components/ghost-fibers";
+
 import { Navbar } from "./navbar";
 
 export const DEFAULT_MARKETING_BACKGROUND = "#fdfdfd";
@@ -70,9 +72,24 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
         data-marketing-page-scroll-surface
         data-scrolled={scrolled ? "true" : "false"}
         data-marketing-background={background}
-        className="h-full min-h-0 w-full overflow-x-hidden overflow-y-auto text-[#242421] transition-[background-color] duration-[600ms] ease-out"
+        className="relative z-0 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto text-[#242421] transition-[background-color] duration-[600ms] ease-out"
         style={{ backgroundColor: background }}
       >
+        <div className="pointer-events-none fixed inset-0 -z-10">
+          <GhostFibers
+            glowColor="#ff7e00"
+            layers={3}
+            twist={1.2}
+            threads={72}
+            fiberStyle="dots"
+            depthOfField={0.85}
+            hoverEffect="focus"
+            intro
+            mouseInteraction
+            lineColor="#ff4f00"
+            secondaryColor="#ff5121"
+          />
+        </div>
         <Navbar scrolled={scrolled} />
         {children}
       </div>
