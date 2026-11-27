@@ -24,12 +24,7 @@ export function MarketingPrimaryCta({
 
   if (variant === "raised") {
     return (
-      <Button1
-        theme="dark"
-        fill="linear-gradient(180deg, #f7f5f3 0%, #efe6de 100%)"
-        colors={{ primary: "#e8b48a" }}
-        className={className}
-      >
+      <Button1 theme="light" className={className}>
         {content}
       </Button1>
     );

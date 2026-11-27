@@ -28,7 +28,7 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
           scrolled
             ? [
                 "mx-4 mt-4 w-[calc(100%-2rem)] soft-small-shadow",
-                "rounded-2xl border-white/10 bg-[#161614]/80 backdrop-blur-xl",
+                "rounded-2xl border-black/10 bg-white/75 backdrop-blur-xl",
               ].join(" ")
             : "mx-0 mt-0 w-full rounded-none border-transparent bg-transparent shadow-none",
         ].join(" ")}
@@ -47,14 +47,8 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
                 "flex items-center gap-2 font-semibold leading-none select-none transition-all duration-300",
               ].join(" ")}
             >
-              <img
-                alt="Evadapt"
-                height={32}
-                width={32}
-                src={"/blackLogo.png"}
-                className="invert"
-              />
-              <span className="text-[14px] tracking-[-0.02em] text-[#f4f3ef]">
+              <img alt="Evadapt" height={32} width={32} src={"/blackLogo.png"} />
+              <span className="text-[14px] tracking-[-0.02em] text-[#242421]">
                 Evadapt
               </span>
             </Link>
@@ -63,32 +57,32 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
           {/* Middle */}
           <div
             className={[
-              "hidden justify-center items-center text-[#e7e6e1] transition-all duration-300 md:flex",
+              "hidden justify-center items-center text-neutral-800 transition-all duration-300 md:flex",
               scrolled ? "gap-7 text-sm lg:gap-10" : "gap-8 text-sm lg:gap-11",
             ].join(" ")}
           >
-            <Link href="/tools" className="hover:text-white transition-colors">
+            <Link href="/tools" className="hover:text-black transition-colors">
               Simulations
             </Link>
             <Link
               href="/#resources"
-              className="hover:text-white transition-colors"
+              className="hover:text-black transition-colors"
             >
               World models
             </Link>
             <Link
               href="/#use-cases"
-              className="hover:text-white transition-colors"
+              className="hover:text-black transition-colors"
             >
               Safety
             </Link>
             <Link
               href="/privacy"
-              className="hover:text-white transition-colors"
+              className="hover:text-black transition-colors"
             >
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="/terms" className="hover:text-black transition-colors">
               Terms
             </Link>
           </div>
@@ -101,9 +95,9 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
             ].join(" ")}
           >
             <span className="hidden sm:inline-flex">
-              <GhostButton label="Log in" style={{ color: "#f4f3ef" }} />
+              <GhostButton label="Log in" style={{ color: "#000000" }} />
             </span>
-            <Button1 theme={"dark"} buttonText={"Open the lab"} />
+            <Button1 theme={"light"} buttonText={"Open the lab"} />
           </div>
         </div>
       </div>

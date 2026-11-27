@@ -98,7 +98,7 @@ function HeroStage() {
                     backgroundClip: "text",
                     color: "transparent",
                     filter:
-                      "drop-shadow(0 1px 0 rgba(255, 236, 214, 0.5)) drop-shadow(0 3px 0 rgba(110, 38, 0, 0.42)) drop-shadow(0 5px 3px rgba(30, 10, 0, 0.38))",
+                      "drop-shadow(0 1px 0 rgba(255, 236, 214, 0.28)) drop-shadow(0 1px 1px rgba(90, 36, 0, 0.1))",
                   }}
                 >
                   Evadapt
@@ -111,7 +111,7 @@ function HeroStage() {
                     backgroundClip: "text",
                     color: "transparent",
                     filter:
-                      "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7)) drop-shadow(0 2px 1px rgba(0, 0, 0, 0.2))",
+                      "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06))",
                   }}
                 >
                   ML Lab exploration.
@@ -130,9 +130,9 @@ function HeroStage() {
         <motion.div
           data-marketing-overlay
           style={{ y: overlayY, opacity: overlayOpacity }}
-          className="absolute inset-0 z-20 rounded-t-[28px] bg-[#121110]"
+          className="absolute inset-0 z-20 rounded-t-[28px] border-t border-black/10 bg-[#f7f6f3]"
         >
-          <p className="whitespace-nowrap px-6 pt-16 pb-4 text-left text-[clamp(1.25rem,4.2vw,3.25rem)] font-medium leading-[1.45] tracking-[-0.03em] text-[#f4f3ef] sm:px-12 sm:pt-20 lg:px-20">
+          <p className="whitespace-nowrap px-6 pt-16 pb-4 text-left text-[clamp(1.25rem,4.2vw,3.25rem)] font-medium leading-[1.45] tracking-[-0.03em] text-[#1c1b18] sm:px-12 sm:pt-20 lg:px-20">
             {OVERLAY_LINE.map((word, index) => (
               <OverlayWord
                 key={word.text}
