@@ -17,7 +17,7 @@ import GhostFibers from "@/components/ghost-fibers";
 
 import { Navbar } from "./navbar";
 
-export const DEFAULT_MARKETING_BACKGROUND = "#10100e";
+export const DEFAULT_MARKETING_BACKGROUND = "#ffffff";
 
 export const MarketingScrollContext =
   createContext<RefObject<HTMLDivElement | null> | null>(null);
@@ -89,7 +89,7 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
             style={{ backgroundColor: background }}
           >
             <GhostFibers
-              glowColor="#ff7e00"
+              glowColor="#5c3218"
               layers={3}
               twist={1.2}
               threads={72}
@@ -98,15 +98,16 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
               hoverEffect="focus"
               intro
               mouseInteraction
-              lineColor="#ff4f00"
-              secondaryColor="#ff5121"
+              lightMode
+              lineColor="#12110f"
+              secondaryColor="#3a2416"
             />
             <div
               aria-hidden="true"
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(90deg, #000 0%, rgba(0,0,0,0.62) 22%, rgba(0,0,0,0) 52%)",
+                  "linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.82) 36%, rgba(255,255,255,0) 68%)",
               }}
             />
           </div>
@@ -115,7 +116,7 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
             data-marketing-page-scroll-surface
             data-scrolled={scrolled ? "true" : "false"}
             data-marketing-background={background}
-            className="relative z-10 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto bg-transparent text-[#f4f3ef]"
+            className="relative z-10 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto bg-transparent text-[#1c1b18]"
           >
             <div className="relative z-10">
               <Navbar scrolled={scrolled} />
