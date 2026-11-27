@@ -82,15 +82,12 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
   return (
     <MarketingPageThemeContext.Provider value={theme}>
       <MarketingScrollContext.Provider value={scrollSurfaceRef}>
-        <div
-          ref={scrollSurfaceRef}
-          data-marketing-page-scroll-surface
-          data-scrolled={scrolled ? "true" : "false"}
-          data-marketing-background={background}
-          className="relative z-0 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto text-[#f4f3ef] transition-[background-color] duration-[600ms] ease-out"
-          style={{ backgroundColor: background }}
-        >
-          <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="relative h-full min-h-0 w-full">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-0 z-0 transition-[background-color] duration-[600ms] ease-out"
+            style={{ backgroundColor: background }}
+          >
             <GhostFibers
               glowColor="#ff7e00"
               layers={3}
@@ -113,9 +110,17 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
               }}
             />
           </div>
-          <div className="relative z-10">
-            <Navbar scrolled={scrolled} />
-            {children}
+          <div
+            ref={scrollSurfaceRef}
+            data-marketing-page-scroll-surface
+            data-scrolled={scrolled ? "true" : "false"}
+            data-marketing-background={background}
+            className="relative z-10 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto bg-transparent text-[#f4f3ef]"
+          >
+            <div className="relative z-10">
+              <Navbar scrolled={scrolled} />
+              {children}
+            </div>
           </div>
         </div>
       </MarketingScrollContext.Provider>
