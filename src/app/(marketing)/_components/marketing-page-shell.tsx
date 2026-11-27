@@ -104,6 +104,14 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
               lineColor="#ff4f00"
               secondaryColor="#ff5121"
             />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(90deg, #000 0%, #000 34%, rgba(0,0,0,0.72) 62%, rgba(0,0,0,0) 100%)",
+              }}
+            />
           </div>
           <div className="relative z-10">
             <Navbar scrolled={scrolled} />
