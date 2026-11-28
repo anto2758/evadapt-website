@@ -1,3 +1,15 @@
+const CX = 755.5;
+const CY = 914.5;
+
+const RINGS = [
+  { r: 517.5, duration: 52, phase: 0 },
+  { r: 517.5, duration: 52, phase: 180 },
+  { r: 399.5, duration: 38, phase: 42 },
+  { r: 399.5, duration: 38, phase: 222 },
+  { r: 276.5, duration: 29, phase: 95 },
+  { r: 153.5, duration: 22, phase: 160 },
+] as const;
+
 const CONCENTRIC_CIRCLES_MARKUP = `
 <g clip-path="url(#clip0_2003_21)">
 <rect width="1512" height="982" fill="#EDEDED"/>
@@ -91,24 +103,91 @@ const CONCENTRIC_CIRCLES_MARKUP = `
 <stop stop-color="#F7F7F7"/>
 <stop offset="1" stop-color="white"/>
 </linearGradient>
+<filter id="orbit_glow" x="-120%" y="-120%" width="340%" height="340%" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="4.5" result="blur"/>
+<feMerge>
+<feMergeNode in="blur"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
 <clipPath id="clip0_2003_21">
 <rect width="1512" height="982" fill="white"/>
 </clipPath>
 </defs>
 `;
 
+const TRAIL = [
+  { angle: 0, radius: 3.2, opacity: 0.22 },
+  { angle: -3.2, radius: 2.4, opacity: 0.12 },
+  { angle: -6.5, radius: 1.8, opacity: 0.07 },
+  { angle: -10.5, radius: 1.2, opacity: 0.035 },
+] as const;
+
+function OrbitLight({
+  r,
+  duration,
+  phase,
+}: {
+  r: number;
+  duration: number;
+  phase: number;
+}) {
+  return (
+    <g>
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from={`${phase} ${CX} ${CY}`}
+        to={`${phase + 360} ${CX} ${CY}`}
+        dur={`${duration}s`}
+        repeatCount="indefinite"
+      />
+      {TRAIL.map((dot) => {
+        const rad = ((-90 + dot.angle) * Math.PI) / 180;
+        const x = CX + r * Math.cos(rad);
+        const y = CY + r * Math.sin(rad);
+        return (
+          <circle
+            key={dot.angle}
+            cx={x}
+            cy={y}
+            r={dot.radius}
+            fill={`rgba(0,0,0,${dot.opacity})`}
+            filter="url(#orbit_glow)"
+          />
+        );
+      })}
+    </g>
+  );
+}
+
 export function ConcentricCirclesBackground() {
   return (
-    <svg
-      width="1512"
-      height="982"
-      viewBox="0 0 1512 982"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMax slice"
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      dangerouslySetInnerHTML={{ __html: CONCENTRIC_CIRCLES_MARKUP }}
-    />
+    <>
+      <svg
+        width="1512"
+        height="982"
+        viewBox="0 0 1512 982"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMax slice"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+      >
+        <g dangerouslySetInnerHTML={{ __html: CONCENTRIC_CIRCLES_MARKUP }} />
+        {RINGS.map((ring) => (
+          <OrbitLight
+            key={`${ring.r}-${ring.phase}`}
+            r={ring.r}
+            duration={ring.duration}
+            phase={ring.phase}
+          />
+        ))}
+      </svg>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 paper-grain"
+      />
+    </>
   );
 }

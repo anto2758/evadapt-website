@@ -85,20 +85,14 @@ function HeroStage() {
       <div className="sticky top-0 h-dvh overflow-hidden">
         <motion.div style={{ filter: heroFilter }} className="relative z-10">
           <main>
-            <section className="px-6 pb-20 pt-[248px] text-left sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
-              <h1 className="max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c1b18] sm:text-[70px] lg:text-[88px]">
+            <section className="px-6 pb-20 pt-[248px] text-center sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
+              <h1 className="mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c1b18] sm:text-[70px] lg:text-[88px]">
                 <span
                   className="italic tracking-normal"
                   style={{
                     fontFamily: "var(--font-lora)",
                     fontStyle: "italic",
-                    backgroundImage:
-                      "linear-gradient(168deg, #ffd7a1 0%, #ff7e00 46%, #e24a00 100%)",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    color: "transparent",
-                    filter:
-                      "drop-shadow(0 1px 0 rgba(255, 236, 214, 0.28)) drop-shadow(0 1px 1px rgba(90, 36, 0, 0.1))",
+                    color: "#ff7e00",
                   }}
                 >
                   Evadapt
@@ -110,14 +104,12 @@ function HeroStage() {
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     color: "transparent",
-                    filter:
-                      "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06))",
                   }}
                 >
                   ML Lab exploration.
                 </span>
               </h1>
-              <div className="mt-9 flex">
+              <div className="mt-9 flex justify-center">
                 <MarketingPrimaryCta
                   label="Explore the lab"
                   variant="raised"
