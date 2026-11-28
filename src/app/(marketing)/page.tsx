@@ -1,17 +1,28 @@
 "use client";
 
-import { ConcentricCirclesBackground } from "@/components/concentric-circles-background";
+import {
+  CIRCLES_COVER_H,
+  ConcentricCirclesBackground,
+  VIEW_H as CIRCLES_VIEW_H,
+  VIEW_W as CIRCLES_VIEW_W,
+} from "@/components/concentric-circles-background";
 import LightRays from "@/components/light-rays";
 
 import { MarketingPageShell } from "./_components/marketing-page-shell";
 
+/** Match prior cover scale: max(vw/W, dvh/coverH); taller than dvh so full discs fit. */
+const CIRCLES_LAYER_HEIGHT = `max(calc(100vw * ${CIRCLES_VIEW_H} / ${CIRCLES_VIEW_W}), calc(100dvh * ${CIRCLES_VIEW_H} / ${CIRCLES_COVER_H}))`;
+
 export default function MarketingPage() {
   return (
     <MarketingPageShell>
-      {/* Tall scroll page; graphic stays viewport-sized and scrolls with the page. */}
+      {/* Tall scroll page; graphic scrolls with the page (not sticky). */}
       <div className="relative h-[300vh]">
-        {/* Unscaled first-viewport composition; not sticky — scrolls away. */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-dvh overflow-hidden [contain:paint]">
+        {/* Full discs at first-viewport cover scale; taller than dvh so arches complete. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 w-full"
+          style={{ height: CIRCLES_LAYER_HEIGHT }}
+        >
           <div className="absolute inset-0 translate-y-[30px]">
             <ConcentricCirclesBackground />
           </div>

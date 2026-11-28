@@ -1,8 +1,15 @@
 const CX = 756;
 /** Low planetary horizon. */
 const CY = 1100;
-const VIEW_W = 1512;
-const VIEW_H = 982;
+export const VIEW_W = 1512;
+/**
+ * Tall enough for the full outermost disc (CY + r) plus far-shadow pad.
+ * First-viewport scale still uses the historical 982 cover height.
+ */
+export const CIRCLES_COVER_H = 982;
+const MAX_RING_R = 720;
+const FAR_SHADOW_PAD = Math.ceil(64 * 3.2 + 3 + 16);
+export const VIEW_H = CY + MAX_RING_R + FAR_SHADOW_PAD;
 
 type Ring = {
   r: number;
@@ -297,7 +304,7 @@ export function ConcentricCirclesBackground() {
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMax slice"
+        preserveAspectRatio="xMidYMin slice"
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
