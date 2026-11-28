@@ -92,7 +92,7 @@ function HeroStage() {
                   style={{
                     fontFamily: "var(--font-lora)",
                     fontStyle: "italic",
-                    color: "#ff7e00",
+                    color: "#c24e00",
                   }}
                 >
                   Evadapt

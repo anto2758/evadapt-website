@@ -1,13 +1,14 @@
 const CX = 755.5;
 const CY = 914.5;
 
-const RINGS = [
-  { r: 517.5, duration: 52, phase: 0 },
-  { r: 517.5, duration: 52, phase: 180 },
-  { r: 399.5, duration: 38, phase: 42 },
-  { r: 399.5, duration: 38, phase: 222 },
-  { r: 276.5, duration: 29, phase: 95 },
-  { r: 153.5, duration: 22, phase: 160 },
+/** Short solid black rim dashes that travel each circle edge. */
+const RIM_DASHES = [
+  { r: 517.5, duration: 52, phase: 0, arcDeg: 7.5 },
+  { r: 517.5, duration: 52, phase: 180, arcDeg: 7.5 },
+  { r: 399.5, duration: 38, phase: 42, arcDeg: 8.5 },
+  { r: 399.5, duration: 38, phase: 222, arcDeg: 8.5 },
+  { r: 276.5, duration: 29, phase: 95, arcDeg: 10 },
+  { r: 153.5, duration: 22, phase: 160, arcDeg: 12 },
 ] as const;
 
 const CONCENTRIC_CIRCLES_MARKUP = `
@@ -103,61 +104,49 @@ const CONCENTRIC_CIRCLES_MARKUP = `
 <stop stop-color="#F7F7F7"/>
 <stop offset="1" stop-color="white"/>
 </linearGradient>
-<filter id="orbit_glow" x="-120%" y="-120%" width="340%" height="340%" color-interpolation-filters="sRGB">
-<feGaussianBlur stdDeviation="4.5" result="blur"/>
-<feMerge>
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
-</filter>
 <clipPath id="clip0_2003_21">
 <rect width="1512" height="982" fill="white"/>
 </clipPath>
 </defs>
 `;
 
-const TRAIL = [
-  { angle: 0, radius: 3.2, opacity: 0.22 },
-  { angle: -3.2, radius: 2.4, opacity: 0.12 },
-  { angle: -6.5, radius: 1.8, opacity: 0.07 },
-  { angle: -10.5, radius: 1.2, opacity: 0.035 },
-] as const;
-
-function OrbitLight({
+function RimDash({
   r,
   duration,
   phase,
+  arcDeg,
 }: {
   r: number;
   duration: number;
   phase: number;
+  arcDeg: number;
 }) {
+  const circumference = 2 * Math.PI * r;
+  const dashLen = (arcDeg / 360) * circumference;
+  const gapLen = circumference - dashLen;
+  // Offset so phase rotates the dash start around the rim (SVG circles start at 3 o'clock).
+  const phaseOffset = ((phase % 360) / 360) * circumference;
+
   return (
-    <g>
-      <animateTransform
-        attributeName="transform"
-        type="rotate"
-        from={`${phase} ${CX} ${CY}`}
-        to={`${phase + 360} ${CX} ${CY}`}
+    <circle
+      cx={CX}
+      cy={CY}
+      r={r}
+      fill="none"
+      stroke="#000000"
+      strokeWidth={1.25}
+      strokeLinecap="butt"
+      strokeDasharray={`${dashLen} ${gapLen}`}
+      strokeDashoffset={phaseOffset}
+    >
+      <animate
+        attributeName="stroke-dashoffset"
+        from={String(phaseOffset)}
+        to={String(phaseOffset - circumference)}
         dur={`${duration}s`}
         repeatCount="indefinite"
       />
-      {TRAIL.map((dot) => {
-        const rad = ((-90 + dot.angle) * Math.PI) / 180;
-        const x = CX + r * Math.cos(rad);
-        const y = CY + r * Math.sin(rad);
-        return (
-          <circle
-            key={dot.angle}
-            cx={x}
-            cy={y}
-            r={dot.radius}
-            fill={`rgba(0,0,0,${dot.opacity})`}
-            filter="url(#orbit_glow)"
-          />
-        );
-      })}
-    </g>
+    </circle>
   );
 }
 
@@ -175,12 +164,13 @@ export function ConcentricCirclesBackground() {
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
         <g dangerouslySetInnerHTML={{ __html: CONCENTRIC_CIRCLES_MARKUP }} />
-        {RINGS.map((ring) => (
-          <OrbitLight
-            key={`${ring.r}-${ring.phase}`}
-            r={ring.r}
-            duration={ring.duration}
-            phase={ring.phase}
+        {RIM_DASHES.map((dash) => (
+          <RimDash
+            key={`${dash.r}-${dash.phase}`}
+            r={dash.r}
+            duration={dash.duration}
+            phase={dash.phase}
+            arcDeg={dash.arcDeg}
           />
         ))}
       </svg>
