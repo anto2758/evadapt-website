@@ -13,11 +13,11 @@ import {
   type SetStateAction,
 } from "react";
 
-import GhostFibers from "@/components/ghost-fibers";
+import { ConcentricCirclesBackground } from "@/components/concentric-circles-background";
 
 import { Navbar } from "./navbar";
 
-export const DEFAULT_MARKETING_BACKGROUND = "#ffffff";
+export const DEFAULT_MARKETING_BACKGROUND = "#EDEDED";
 
 export const MarketingScrollContext =
   createContext<RefObject<HTMLDivElement | null> | null>(null);
@@ -85,31 +85,10 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
         <div className="relative h-full min-h-0 w-full">
           <div
             aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-0 transition-[background-color] duration-[600ms] ease-out"
+            className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#EDEDED] transition-[background-color] duration-[600ms] ease-out"
             style={{ backgroundColor: background }}
           >
-            <GhostFibers
-              glowColor="#5c3218"
-              layers={3}
-              twist={1.2}
-              threads={72}
-              fiberStyle="dots"
-              depthOfField={0.85}
-              hoverEffect="focus"
-              intro
-              mouseInteraction
-              lightMode
-              lineColor="#12110f"
-              secondaryColor="#3a2416"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.82) 36%, rgba(255,255,255,0) 68%)",
-              }}
-            />
+            <ConcentricCirclesBackground />
           </div>
           <div
             ref={scrollSurfaceRef}
