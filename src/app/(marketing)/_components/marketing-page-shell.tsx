@@ -83,8 +83,14 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
         <div className="relative h-full min-h-0 w-full">
           <div
             aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#E2E8F0] transition-[background-color] duration-[600ms] ease-out"
-            style={{ backgroundColor: background }}
+            className="pointer-events-none fixed inset-0 z-0 overflow-hidden transition-[background-color] duration-[600ms] ease-out"
+            style={{
+              backgroundColor: background,
+              backgroundImage:
+                background === DEFAULT_MARKETING_BACKGROUND
+                  ? "linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 16%, #E8EDF4 36%, #E2E8F0 55%, #E2E8F0 100%)"
+                  : undefined,
+            }}
           />
           <div
             ref={scrollSurfaceRef}

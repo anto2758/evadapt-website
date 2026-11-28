@@ -22,10 +22,10 @@ type Ring = {
 };
 
 /**
- * Light-mode Neuronest: stacked paper discs on a flat cool blue-grey field
- * (#E2E8F0 — mid-ring blue carried all the way to the top). Soft shade
- * falloff under the rim and dual shadows. Lit faces stay close to body so
- * the upper field does not wash out into a whitish crown.
+ * Light-mode Neuronest: stacked paper discs on a cool mid-blue field
+ * (#E2E8F0 mid/lower) that washes brighter toward the top. Each inner disc
+ * body is a slight step lighter than the one outside it — readable layers,
+ * not a contrast jump. Soft shade under the rim and dual shadows.
  */
 const RINGS: Ring[] = [
   {
@@ -43,9 +43,9 @@ const RINGS: Ring[] = [
   },
   {
     r: 560,
-    lit: "#E8EDF4",
-    body: "#E4EAF1",
-    deep: "#DEE5EF",
+    lit: "#EAF0F6",
+    body: "#E6ECF3",
+    deep: "#E0E6F0",
     farBlur: 50,
     farOp: 0.028,
     nearBlur: 12,
@@ -56,9 +56,9 @@ const RINGS: Ring[] = [
   },
   {
     r: 405,
-    lit: "#EBF0F6",
-    body: "#E7ECF3",
-    deep: "#E2E8F0",
+    lit: "#EEF3F8",
+    body: "#EAEEF5",
+    deep: "#E4EAF1",
     farBlur: 36,
     farOp: 0.03,
     nearBlur: 10,
@@ -69,9 +69,9 @@ const RINGS: Ring[] = [
   },
   {
     r: 250,
-    lit: "#EEF2F7",
-    body: "#EAEFF5",
-    deep: "#E4EAF1",
+    lit: "#F2F6FA",
+    body: "#EEF2F7",
+    deep: "#E8EDF4",
     farBlur: 24,
     farOp: 0.03,
     nearBlur: 8,
@@ -302,6 +302,21 @@ export function ConcentricCirclesBackground() {
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
         <defs>
+          {/* Mid/lower stays #E2E8F0; crown lifts to cool blue-white. */}
+          <linearGradient
+            id="field-wash"
+            gradientUnits="userSpaceOnUse"
+            x1={0}
+            y1={0}
+            x2={0}
+            y2={VIEW_H}
+          >
+            <stop offset="0" stopColor="#F8FAFC" />
+            <stop offset="0.16" stopColor="#F1F5F9" />
+            <stop offset="0.36" stopColor="#E8EDF4" />
+            <stop offset="0.55" stopColor="#E2E8F0" />
+            <stop offset="1" stopColor="#E2E8F0" />
+          </linearGradient>
           <filter
             id="dust-soft"
             x="-40%"
@@ -314,8 +329,7 @@ export function ConcentricCirclesBackground() {
           </filter>
         </defs>
 
-        {/* Flat mid-ring blue to the top — no brighter crown. */}
-        <rect width={VIEW_W} height={VIEW_H} fill="#E2E8F0" />
+        <rect width={VIEW_W} height={VIEW_H} fill="url(#field-wash)" />
 
         <g filter="url(#dust-soft)">
           {DUST.map((d, i) => (
