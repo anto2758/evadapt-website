@@ -1,18 +1,22 @@
 const CX = 755.5;
 const CY = 914.5;
 
-/** Short solid black rim dashes that travel each circle edge. */
+/** Sparse black rim lights: constant width, opacity fade at the tail. */
 const RIM_DASHES = [
-  { r: 517.5, duration: 52, phase: 0, arcDeg: 7.5 },
-  { r: 517.5, duration: 52, phase: 180, arcDeg: 7.5 },
-  { r: 399.5, duration: 38, phase: 42, arcDeg: 8.5 },
-  { r: 399.5, duration: 38, phase: 222, arcDeg: 8.5 },
-  { r: 276.5, duration: 29, phase: 95, arcDeg: 10 },
-  { r: 153.5, duration: 22, phase: 160, arcDeg: 12 },
+  { r: 517.5, duration: 78, phase: 18, arcDeg: 5.5 },
+  { r: 399.5, duration: 64, phase: 155, arcDeg: 6.5 },
+  { r: 276.5, duration: 52, phase: 268, arcDeg: 7.5 },
 ] as const;
 
-const HEAD_HALF_WIDTH = 0.7;
+/** Half the stroke width in SVG units — constant along the dash. */
+const HEAD_HALF_WIDTH = 0.45;
+/** Nudge the dash centerline outside the rim so the head sits past the perimeter. */
+const OUTWARD_OFFSET = 1.6;
 
+/**
+ * Stacked paper discs on #EDEDED: clearer value steps, soft contact shadows,
+ * and a 1px white inset hairline on each rim (Figma ellipse treatment).
+ */
 const CONCENTRIC_CIRCLES_MARKUP = `
 <g clip-path="url(#clip0_2003_21)">
 <rect width="1512" height="982" fill="#EDEDED"/>
@@ -22,7 +26,7 @@ const CONCENTRIC_CIRCLES_MARKUP = `
 <g filter="url(#filter1_di_2003_21)">
 <circle cx="755.5" cy="914.5" r="399.5" fill="url(#paint1_radial_2003_21)"/>
 </g>
-<g opacity="0.5" filter="url(#filter2_di_2003_21)">
+<g filter="url(#filter2_di_2003_21)">
 <circle cx="755.5" cy="914.5" r="276.5" fill="url(#paint2_radial_2003_21)"/>
 </g>
 <g filter="url(#filter3_di_2003_21)">
@@ -30,81 +34,84 @@ const CONCENTRIC_CIRCLES_MARKUP = `
 </g>
 </g>
 <defs>
-<filter id="filter0_di_2003_21" x="188" y="347" width="1135" height="1135" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_di_2003_21" x="208" y="367" width="1095" height="1095" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="25"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="14"/>
 <feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.01 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2003_21"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2003_21" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dx="1" dy="1"/>
 <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.85 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.72 0"/>
 <feBlend mode="normal" in2="shape" result="effect2_innerShadow_2003_21"/>
 </filter>
-<filter id="filter1_di_2003_21" x="306" y="465" width="899" height="899" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter1_di_2003_21" x="328" y="487" width="855" height="855" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="25"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="12"/>
 <feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.02 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2003_21"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2003_21" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dx="-1" dy="1"/>
 <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.85 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.72 0"/>
 <feBlend mode="normal" in2="shape" result="effect2_innerShadow_2003_21"/>
 </filter>
-<filter id="filter2_di_2003_21" x="429" y="588" width="653" height="653" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter2_di_2003_21" x="453" y="612" width="605" height="605" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="25"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="10"/>
 <feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2003_21"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2003_21" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dx="1" dy="1"/>
 <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.78 0"/>
 <feBlend mode="normal" in2="shape" result="effect2_innerShadow_2003_21"/>
 </filter>
-<filter id="filter3_di_2003_21" x="552" y="711" width="407" height="407" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter3_di_2003_21" x="578" y="737" width="355" height="355" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="25"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="8"/>
 <feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2003_21"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2003_21" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dx="-1" dy="1"/>
 <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.85 0"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.78 0"/>
 <feBlend mode="normal" in2="shape" result="effect2_innerShadow_2003_21"/>
 </filter>
 <radialGradient id="paint0_radial_2003_21" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(755.5 914.5) rotate(90) scale(517.5)">
-<stop stop-color="#F2F2F2"/>
-<stop offset="1" stop-color="#F3F3F3"/>
+<stop stop-color="#F0F0F0"/>
+<stop offset="0.82" stop-color="#F1F1F1"/>
+<stop offset="1" stop-color="#EFEFEF"/>
 </radialGradient>
 <radialGradient id="paint1_radial_2003_21" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(755.5 914.5) rotate(90) scale(399.5)">
-<stop stop-color="#F0F0F0"/>
-<stop offset="1" stop-color="#F8F8F8"/>
+<stop stop-color="#F4F4F4"/>
+<stop offset="0.78" stop-color="#F5F5F5"/>
+<stop offset="1" stop-color="#F2F2F2"/>
 </radialGradient>
 <radialGradient id="paint2_radial_2003_21" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(755.5 914.5) rotate(90) scale(276.5)">
-<stop stop-color="#F5F5F5"/>
-<stop offset="1" stop-color="#FBFBFB"/>
-</radialGradient>
-<linearGradient id="paint3_linear_2003_21" x1="755.5" y1="772.545" x2="755.5" y2="976.926" gradientUnits="userSpaceOnUse">
 <stop stop-color="#F7F7F7"/>
-<stop offset="1" stop-color="white"/>
+<stop offset="0.75" stop-color="#F8F8F8"/>
+<stop offset="1" stop-color="#F5F5F5"/>
+</radialGradient>
+<linearGradient id="paint3_linear_2003_21" x1="755.5" y1="761" x2="755.5" y2="1068" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FAFAFA"/>
+<stop offset="1" stop-color="#FFFFFF"/>
 </linearGradient>
 <clipPath id="clip0_2003_21">
 <rect width="1512" height="982" fill="white"/>
@@ -113,30 +120,29 @@ const CONCENTRIC_CIRCLES_MARKUP = `
 `;
 
 /**
- * Solid black dash along a rim arc: flat butt at the leading tip, width + opacity
- * taper toward the trailing end (one continuous shape — not discrete dots).
- * Local coordinates: head at angle 0° (3 o'clock); trail extends counter-clockwise
- * so clockwise rotation makes the solid tip lead.
+ * Constant-width black dash along a rim arc: flat butt at the leading tip,
+ * opacity fades at the trailing end (no stroke-width taper). Centerline sits
+ * slightly outside the rim so the head extends past the perimeter.
  */
-function buildTaperedRimDash(
+function buildRimDash(
   r: number,
   arcDeg: number,
-  headHalfWidth: number,
+  halfWidth: number,
+  outwardOffset: number,
   steps = 24,
 ): { d: string; headX: number; headY: number; tailX: number; tailY: number } {
   const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const pathR = r + outwardOffset;
   const outer: Array<[number, number]> = [];
   const inner: Array<[number, number]> = [];
 
   for (let i = 0; i <= steps; i++) {
-    const t = i / steps; // 0 = head (solid), 1 = tail (gone)
+    const t = i / steps; // 0 = head (solid), 1 = tail (faded)
     const ang = toRad(-t * arcDeg);
-    // Keep the head thick a touch longer, then taper to a point.
-    const w = headHalfWidth * Math.pow(1 - t, 1.2);
     const cos = Math.cos(ang);
     const sin = Math.sin(ang);
-    outer.push([CX + (r + w) * cos, CY + (r + w) * sin]);
-    inner.push([CX + (r - w) * cos, CY + (r - w) * sin]);
+    outer.push([CX + (pathR + halfWidth) * cos, CY + (pathR + halfWidth) * sin]);
+    inner.push([CX + (pathR - halfWidth) * cos, CY + (pathR - halfWidth) * sin]);
   }
 
   let d = `M ${outer[0][0]} ${outer[0][1]}`;
@@ -148,11 +154,11 @@ function buildTaperedRimDash(
   }
   d += " Z";
 
-  const headX = CX + r;
+  const headX = CX + pathR;
   const headY = CY;
   const tailAng = toRad(-arcDeg);
-  const tailX = CX + r * Math.cos(tailAng);
-  const tailY = CY + r * Math.sin(tailAng);
+  const tailX = CX + pathR * Math.cos(tailAng);
+  const tailY = CY + pathR * Math.sin(tailAng);
 
   return { d, headX, headY, tailX, tailY };
 }
@@ -169,10 +175,11 @@ function RimDash({
   arcDeg: number;
 }) {
   const gradId = `rim-fade-${r}-${phase}`.replace(".", "_");
-  const { d, headX, headY, tailX, tailY } = buildTaperedRimDash(
+  const { d, headX, headY, tailX, tailY } = buildRimDash(
     r,
     arcDeg,
     HEAD_HALF_WIDTH,
+    OUTWARD_OFFSET,
   );
 
   return (
@@ -194,10 +201,10 @@ function RimDash({
           x2={tailX}
           y2={tailY}
         >
-          {/* Solid black leading tip, soft fade only at the trailing end. */}
-          <stop offset="0" stopColor="#000000" stopOpacity="1" />
-          <stop offset="0.45" stopColor="#000000" stopOpacity="1" />
-          <stop offset="0.78" stopColor="#000000" stopOpacity="0.35" />
+          {/* Constant width; alpha fades only toward the trailing end. */}
+          <stop offset="0" stopColor="#000000" stopOpacity="0.88" />
+          <stop offset="0.4" stopColor="#000000" stopOpacity="0.72" />
+          <stop offset="0.72" stopColor="#000000" stopOpacity="0.28" />
           <stop offset="1" stopColor="#000000" stopOpacity="0" />
         </linearGradient>
       </defs>
