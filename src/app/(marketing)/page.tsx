@@ -22,12 +22,13 @@ export default function MarketingPage() {
         className="relative h-[300vh]"
         style={{ backgroundColor: FIELD_COLOR }}
       >
-        {/* Full discs at first-viewport cover scale; taller than dvh so arches complete. */}
+        {/* Full discs flush to the top so the crown wash sits under the navbar
+            (no solid FIELD_COLOR strip from a downward translate). */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 z-0 w-full"
           style={{ height: CIRCLES_LAYER_HEIGHT }}
         >
-          <div className="absolute inset-0 translate-y-[30px]">
+          <div className="absolute inset-0">
             <ConcentricCirclesBackground />
           </div>
           <div

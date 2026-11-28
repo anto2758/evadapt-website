@@ -46,15 +46,24 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     const surface = scrollSurfaceRef.current;
     if (!surface) return;
-    // Graphite-style: only the marketing scroll surface drives the pill.
+    // Prefer the marketing scroll surface; also watch window in case the
+    // height chain breaks and the document becomes the real scroller.
     const syncScrolled = () => {
-      const next = surface.scrollTop > 12;
+      const next =
+        Math.max(
+          surface.scrollTop,
+          window.scrollY,
+          document.documentElement.scrollTop,
+          document.body.scrollTop
+        ) > 12;
       setScrolled((current) => (current === next ? current : next));
     };
     syncScrolled();
     surface.addEventListener("scroll", syncScrolled, { passive: true });
+    window.addEventListener("scroll", syncScrolled, { passive: true });
     return () => {
       surface.removeEventListener("scroll", syncScrolled);
+      window.removeEventListener("scroll", syncScrolled);
     };
   }, []);
 
@@ -66,6 +75,9 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
           className="pointer-events-none fixed inset-0 z-0 overflow-hidden transition-[background-color] duration-[600ms] ease-out"
           style={{ backgroundColor: background }}
         />
+        {/* Navbar outside the overflow scroller so position:fixed stays
+            viewport-relative (WebKit otherwise pins fixed to the surface). */}
+        <Navbar scrolled={scrolled} />
         <div
           ref={scrollSurfaceRef}
           data-marketing-page-scroll-surface
@@ -73,10 +85,7 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
           data-marketing-background={background}
           className="relative z-10 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto overscroll-none bg-transparent text-[#1c1b18]"
         >
-          <div className="relative z-10">
-            <Navbar scrolled={scrolled} />
-            {children}
-          </div>
+          <div className="relative z-10">{children}</div>
         </div>
       </div>
     </MarketingPageThemeContext.Provider>
