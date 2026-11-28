@@ -8,11 +8,13 @@ import { MarketingPageShell } from "./_components/marketing-page-shell";
 export default function MarketingPage() {
   return (
     <MarketingPageShell>
-      {/* Tall scroll page; graphic stays viewport-sized (not stretched to 300vh). */}
+      {/* Tall scroll page; graphic stays viewport-sized and scrolls with the page. */}
       <div className="relative h-[300vh]">
-        {/* Same first-viewport composition as pre-58dbd5e; sticks while page scrolls. */}
-        <div className="pointer-events-none sticky top-0 z-0 h-dvh overflow-hidden [contain:paint]">
-          <ConcentricCirclesBackground />
+        {/* Unscaled first-viewport composition; not sticky — scrolls away. */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-dvh overflow-hidden [contain:paint]">
+          <div className="absolute inset-0 translate-y-[30px]">
+            <ConcentricCirclesBackground />
+          </div>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 z-[1]"
@@ -38,7 +40,7 @@ export default function MarketingPage() {
           </div>
         </div>
 
-        {/* Hero copy in the first viewport; scrolls away over the sticky field. */}
+        {/* Hero copy in the first viewport; scrolls with the page. */}
         <main className="pointer-events-none absolute inset-x-0 top-0 z-[2]">
           <section className="flex min-h-dvh items-start justify-center px-6 pb-20 pt-[200px] text-center sm:px-12 sm:pb-28 sm:pt-[220px] lg:px-20">
             <h1 className="pointer-events-auto mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c2430] sm:text-[70px] lg:text-[88px]">
