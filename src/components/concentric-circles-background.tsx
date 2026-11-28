@@ -8,7 +8,7 @@ export const VIEW_W = 1512;
  */
 export const CIRCLES_COVER_H = 982;
 const MAX_RING_R = 720;
-const FAR_SHADOW_PAD = Math.ceil(64 * 3.2 + 3 + 16);
+const FAR_SHADOW_PAD = Math.ceil(42 * 3.2 + 3 + 16);
 export const VIEW_H = CY + MAX_RING_R + FAR_SHADOW_PAD;
 
 type Ring = {
@@ -38,7 +38,7 @@ export const FIELD_COLOR = "#D8E0EA";
  * Light-mode Neuronest: stacked paper discs on a cool blue-gray field
  * (FIELD_COLOR mid/lower — a subtle step darker than outermost body #E2E8F0)
  * with a gentle brighter crown wash. Each inner disc body steps brighter so
- * the layers read clearly. Soft shade under the rim and dual shadows.
+ * the layers read clearly. Soft shade under the rim and light dual shadows.
  */
 const RINGS: Ring[] = [
   {
@@ -46,52 +46,52 @@ const RINGS: Ring[] = [
     lit: "#E6EBF3",
     body: "#E2E8F0",
     deep: "#DCE3ED",
-    farBlur: 64,
-    farOp: 0.026,
-    nearBlur: 14,
-    nearOp: 0.024,
-    rimPeak: 0.85,
-    rimWidth: 2.8,
-    shadePeak: 0.08,
+    farBlur: 42,
+    farOp: 0.018,
+    nearBlur: 9,
+    nearOp: 0.02,
+    rimPeak: 0.82,
+    rimWidth: 2.1,
+    shadePeak: 0.06,
   },
   {
     r: 560,
     lit: "#EEF4F9",
     body: "#EAF0F6",
     deep: "#E4EAF3",
-    farBlur: 50,
-    farOp: 0.028,
-    nearBlur: 12,
-    nearOp: 0.026,
-    rimPeak: 0.92,
-    rimWidth: 2.5,
-    shadePeak: 0.09,
+    farBlur: 34,
+    farOp: 0.02,
+    nearBlur: 8,
+    nearOp: 0.022,
+    rimPeak: 0.88,
+    rimWidth: 1.9,
+    shadePeak: 0.065,
   },
   {
     r: 405,
     lit: "#F6F9FD",
     body: "#F2F4FA",
     deep: "#ECF0F6",
-    farBlur: 36,
-    farOp: 0.03,
-    nearBlur: 10,
-    nearOp: 0.028,
-    rimPeak: 0.95,
-    rimWidth: 2.2,
-    shadePeak: 0.095,
+    farBlur: 26,
+    farOp: 0.022,
+    nearBlur: 7,
+    nearOp: 0.024,
+    rimPeak: 0.9,
+    rimWidth: 1.65,
+    shadePeak: 0.07,
   },
   {
     r: 250,
     lit: "#FEFFFF",
     body: "#FAFCFE",
     deep: "#F4F7FB",
-    farBlur: 24,
-    farOp: 0.03,
-    nearBlur: 8,
-    nearOp: 0.03,
-    rimPeak: 0.8,
-    rimWidth: 1.8,
-    shadePeak: 0.08,
+    farBlur: 18,
+    farOp: 0.022,
+    nearBlur: 5.5,
+    nearOp: 0.024,
+    rimPeak: 0.76,
+    rimWidth: 1.35,
+    shadePeak: 0.06,
   },
 ]
 
@@ -244,25 +244,25 @@ function Disc({ ring, index }: { ring: Ring; index: number }) {
 
         <filter
           id={rimBlurId}
-          x={CX - ring.r - 80}
-          y={CY - ring.r - 80}
-          width={ring.r * 2 + 160}
-          height={ring.r + 120}
+          x={CX - ring.r - 48}
+          y={CY - ring.r - 48}
+          width={ring.r * 2 + 96}
+          height={ring.r + 80}
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur stdDeviation="3.8" />
+          <feGaussianBlur stdDeviation="2.2" />
         </filter>
         <filter
           id={shadeBlurId}
-          x={CX - ring.r - 100}
-          y={CY - ring.r - 100}
-          width={ring.r * 2 + 200}
-          height={ring.r + 160}
+          x={CX - ring.r - 64}
+          y={CY - ring.r - 64}
+          width={ring.r * 2 + 128}
+          height={ring.r + 100}
           filterUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur stdDeviation="20" />
+          <feGaussianBlur stdDeviation="12" />
         </filter>
       </defs>
 
@@ -272,22 +272,22 @@ function Disc({ ring, index }: { ring: Ring; index: number }) {
 
       {/* Soft cool shade under the rim — subtle volume, not a gray stair. */}
       <path
-        d={arcPath(ring.r - 24, rimStart, rimEnd)}
+        d={arcPath(ring.r - 20, rimStart, rimEnd)}
         fill="none"
         stroke={`url(#${shadeGradId})`}
-        strokeWidth={52}
+        strokeWidth={40}
         strokeLinecap="butt"
         filter={`url(#${shadeBlurId})`}
       />
 
-      {/* Feathered bloom, then crisp constant-width hairline. */}
+      {/* Light feathered bloom, then thinner crisp hairline. */}
       <path
         d={arcPath(ring.r - 0.4, rimStart, rimEnd)}
         fill="none"
         stroke={`url(#${rimGradId})`}
-        strokeWidth={ring.rimWidth * 5}
+        strokeWidth={ring.rimWidth * 3.2}
         strokeLinecap="butt"
-        opacity={0.55}
+        opacity={0.4}
         filter={`url(#${rimBlurId})`}
       />
       <path
