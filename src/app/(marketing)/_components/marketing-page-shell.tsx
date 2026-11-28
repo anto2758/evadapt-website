@@ -9,26 +9,12 @@ import {
   useState,
   type Dispatch,
   type ReactNode,
-  type RefObject,
   type SetStateAction,
 } from "react";
 
 import { Navbar } from "./navbar";
 
 export const DEFAULT_MARKETING_BACKGROUND = "#E2E8F0";
-
-export const MarketingScrollContext =
-  createContext<RefObject<HTMLDivElement | null> | null>(null);
-
-export function useMarketingScrollContainer() {
-  const ref = useContext(MarketingScrollContext);
-  if (!ref) {
-    throw new Error(
-      "useMarketingScrollContainer must be used within MarketingPageShell"
-    );
-  }
-  return ref;
-}
 
 type MarketingPageTheme = {
   background: string;
@@ -79,33 +65,31 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
 
   return (
     <MarketingPageThemeContext.Provider value={theme}>
-      <MarketingScrollContext.Provider value={scrollSurfaceRef}>
-        <div className="relative h-full min-h-0 w-full">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-0 overflow-hidden transition-[background-color] duration-[600ms] ease-out"
-            style={{
-              backgroundColor: background,
-              backgroundImage:
-                background === DEFAULT_MARKETING_BACKGROUND
-                  ? "linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 16%, #E8EDF4 36%, #E2E8F0 55%, #E2E8F0 100%)"
-                  : undefined,
-            }}
-          />
-          <div
-            ref={scrollSurfaceRef}
-            data-marketing-page-scroll-surface
-            data-scrolled={scrolled ? "true" : "false"}
-            data-marketing-background={background}
-            className="relative z-10 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto bg-transparent text-[#1c1b18]"
-          >
-            <div className="relative z-10">
-              <Navbar scrolled={scrolled} />
-              {children}
-            </div>
+      <div className="relative h-full min-h-0 w-full">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-0 overflow-hidden transition-[background-color] duration-[600ms] ease-out"
+          style={{
+            backgroundColor: background,
+            backgroundImage:
+              background === DEFAULT_MARKETING_BACKGROUND
+                ? "linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 16%, #E8EDF4 36%, #E2E8F0 55%, #E2E8F0 100%)"
+                : undefined,
+          }}
+        />
+        <div
+          ref={scrollSurfaceRef}
+          data-marketing-page-scroll-surface
+          data-scrolled={scrolled ? "true" : "false"}
+          data-marketing-background={background}
+          className="relative z-10 h-full min-h-0 w-full overflow-x-hidden overflow-y-auto bg-transparent text-[#1c1b18]"
+        >
+          <div className="relative z-10">
+            <Navbar scrolled={scrolled} />
+            {children}
           </div>
         </div>
-      </MarketingScrollContext.Provider>
+      </div>
     </MarketingPageThemeContext.Provider>
   );
 }
