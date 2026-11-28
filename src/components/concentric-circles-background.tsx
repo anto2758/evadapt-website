@@ -11,6 +11,8 @@ const RIM_DASHES = [
   { r: 153.5, duration: 22, phase: 160, arcDeg: 12 },
 ] as const;
 
+const HEAD_HALF_WIDTH = 0.7;
+
 const CONCENTRIC_CIRCLES_MARKUP = `
 <g clip-path="url(#clip0_2003_21)">
 <rect width="1512" height="982" fill="#EDEDED"/>
@@ -110,6 +112,51 @@ const CONCENTRIC_CIRCLES_MARKUP = `
 </defs>
 `;
 
+/**
+ * Solid black dash along a rim arc: flat butt at the leading tip, width + opacity
+ * taper toward the trailing end (one continuous shape — not discrete dots).
+ * Local coordinates: head at angle 0° (3 o'clock); trail extends counter-clockwise
+ * so clockwise rotation makes the solid tip lead.
+ */
+function buildTaperedRimDash(
+  r: number,
+  arcDeg: number,
+  headHalfWidth: number,
+  steps = 24,
+): { d: string; headX: number; headY: number; tailX: number; tailY: number } {
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const outer: Array<[number, number]> = [];
+  const inner: Array<[number, number]> = [];
+
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps; // 0 = head (solid), 1 = tail (gone)
+    const ang = toRad(-t * arcDeg);
+    // Keep the head thick a touch longer, then taper to a point.
+    const w = headHalfWidth * Math.pow(1 - t, 1.2);
+    const cos = Math.cos(ang);
+    const sin = Math.sin(ang);
+    outer.push([CX + (r + w) * cos, CY + (r + w) * sin]);
+    inner.push([CX + (r - w) * cos, CY + (r - w) * sin]);
+  }
+
+  let d = `M ${outer[0][0]} ${outer[0][1]}`;
+  for (let i = 1; i < outer.length; i++) {
+    d += ` L ${outer[i][0]} ${outer[i][1]}`;
+  }
+  for (let i = inner.length - 1; i >= 0; i--) {
+    d += ` L ${inner[i][0]} ${inner[i][1]}`;
+  }
+  d += " Z";
+
+  const headX = CX + r;
+  const headY = CY;
+  const tailAng = toRad(-arcDeg);
+  const tailX = CX + r * Math.cos(tailAng);
+  const tailY = CY + r * Math.sin(tailAng);
+
+  return { d, headX, headY, tailX, tailY };
+}
+
 function RimDash({
   r,
   duration,
@@ -121,32 +168,41 @@ function RimDash({
   phase: number;
   arcDeg: number;
 }) {
-  const circumference = 2 * Math.PI * r;
-  const dashLen = (arcDeg / 360) * circumference;
-  const gapLen = circumference - dashLen;
-  // Offset so phase rotates the dash start around the rim (SVG circles start at 3 o'clock).
-  const phaseOffset = ((phase % 360) / 360) * circumference;
+  const gradId = `rim-fade-${r}-${phase}`.replace(".", "_");
+  const { d, headX, headY, tailX, tailY } = buildTaperedRimDash(
+    r,
+    arcDeg,
+    HEAD_HALF_WIDTH,
+  );
 
   return (
-    <circle
-      cx={CX}
-      cy={CY}
-      r={r}
-      fill="none"
-      stroke="#000000"
-      strokeWidth={1.25}
-      strokeLinecap="butt"
-      strokeDasharray={`${dashLen} ${gapLen}`}
-      strokeDashoffset={phaseOffset}
-    >
-      <animate
-        attributeName="stroke-dashoffset"
-        from={String(phaseOffset)}
-        to={String(phaseOffset - circumference)}
+    <g transform={`rotate(${phase} ${CX} ${CY})`}>
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from={`${phase} ${CX} ${CY}`}
+        to={`${phase + 360} ${CX} ${CY}`}
         dur={`${duration}s`}
         repeatCount="indefinite"
       />
-    </circle>
+      <defs>
+        <linearGradient
+          id={gradId}
+          gradientUnits="userSpaceOnUse"
+          x1={headX}
+          y1={headY}
+          x2={tailX}
+          y2={tailY}
+        >
+          {/* Solid black leading tip, soft fade only at the trailing end. */}
+          <stop offset="0" stopColor="#000000" stopOpacity="1" />
+          <stop offset="0.45" stopColor="#000000" stopOpacity="1" />
+          <stop offset="0.78" stopColor="#000000" stopOpacity="0.35" />
+          <stop offset="1" stopColor="#000000" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d={d} fill={`url(#${gradId})`} />
+    </g>
   );
 }
 
