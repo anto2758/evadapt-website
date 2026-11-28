@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 
 import { ConcentricCirclesBackground } from "@/components/concentric-circles-background";
+import LightRays from "@/components/light-rays";
 
 import {
   MarketingPageShell,
@@ -98,7 +99,31 @@ function HeroStage() {
           className="absolute inset-0 z-10"
         >
           <ConcentricCirclesBackground />
-          <main className="relative">
+          {/* Whisper LightRays — atmosphere only; never above clickable UI. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-[1]"
+          >
+            <LightRays
+              raysOrigin="top-center"
+              raysColor="#C8D4E4"
+              lightMode
+              followMouse
+              mouseInfluence={0.05}
+              intensity={0.35}
+              opacity={0.22}
+              glow={0.25}
+              haze={0.12}
+              lightSpread={0.65}
+              rayLength={2.2}
+              rayDensity={0.85}
+              raysSpeed={0.55}
+              cursorShadow={false}
+              clickPulse={false}
+              pulsating={false}
+            />
+          </div>
+          <main className="relative z-[2]">
             <section className="px-6 pb-20 pt-[248px] text-center sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
               <h1 className="mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c2430] sm:text-[70px] lg:text-[88px]">
                 <span
