@@ -8,9 +8,10 @@ import { MarketingPageShell } from "./_components/marketing-page-shell";
 export default function MarketingPage() {
   return (
     <MarketingPageShell>
-      {/* Tall field: circles + rays scroll with the document (~3 viewports). */}
-      <div className="relative min-h-[300vh]">
-        <div className="pointer-events-none absolute inset-0 z-0">
+      {/* Tall scroll page; graphic stays viewport-sized (not stretched to 300vh). */}
+      <div className="relative h-[300vh]">
+        {/* Same first-viewport composition as pre-58dbd5e; sticks while page scrolls. */}
+        <div className="pointer-events-none sticky top-0 z-0 h-dvh overflow-hidden [contain:paint]">
           <ConcentricCirclesBackground />
           <div
             aria-hidden="true"
@@ -37,10 +38,10 @@ export default function MarketingPage() {
           </div>
         </div>
 
-        {/* Hero copy lives in the first viewport; scrolling reveals more field. */}
-        <main className="relative z-[2]">
+        {/* Hero copy in the first viewport; scrolls away over the sticky field. */}
+        <main className="pointer-events-none absolute inset-x-0 top-0 z-[2]">
           <section className="flex min-h-dvh items-start justify-center px-6 pb-20 pt-[200px] text-center sm:px-12 sm:pb-28 sm:pt-[220px] lg:px-20">
-            <h1 className="mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c2430] sm:text-[70px] lg:text-[88px]">
+            <h1 className="pointer-events-auto mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c2430] sm:text-[70px] lg:text-[88px]">
               <span
                 className="italic tracking-normal"
                 style={{
