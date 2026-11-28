@@ -25,6 +25,12 @@ const OVERLAY_LINE = [
   { text: "learning.", accent: true },
 ] as const;
 
+/** Top corner radius; fade band is its diameter so the soft edge matches the round. */
+const OVERLAY_RADIUS_PX = 28;
+const OVERLAY_FADE_PX = OVERLAY_RADIUS_PX * 2;
+/** Charcoal sheet fill — near-black, not pure black. */
+const OVERLAY_SHEET = "#1c1c1a";
+
 const accentWordStyle = {
   fontFamily: "var(--font-lora)",
   fontStyle: "italic" as const,
@@ -128,10 +134,18 @@ function HeroStage() {
         </motion.div>
         <motion.div
           data-marketing-overlay
-          style={{ y: overlayY, opacity: overlayOpacity }}
-          className="absolute inset-0 z-20 rounded-t-[28px] border-t border-black/10 bg-[#f7f6f3]"
+          style={{
+            y: overlayY,
+            opacity: overlayOpacity,
+            borderRadius: `${OVERLAY_RADIUS_PX}px ${OVERLAY_RADIUS_PX}px 0 0`,
+            backgroundImage: `linear-gradient(to bottom, transparent 0%, ${OVERLAY_SHEET} ${OVERLAY_FADE_PX}px)`,
+            border: "none",
+            outline: "none",
+            boxShadow: "none",
+          }}
+          className="absolute inset-0 z-20"
         >
-          <p className="whitespace-nowrap px-6 pt-16 pb-4 text-left text-[clamp(1.25rem,4.2vw,3.25rem)] font-medium leading-[1.45] tracking-[-0.03em] text-[#1c1b18] sm:px-12 sm:pt-20 lg:px-20">
+          <p className="whitespace-nowrap px-6 pt-16 pb-4 text-left text-[clamp(1.25rem,4.2vw,3.25rem)] font-medium leading-[1.45] tracking-[-0.03em] text-[#f4f3ef] sm:px-12 sm:pt-20 lg:px-20">
             {OVERLAY_LINE.map((word, index) => (
               <OverlayWord
                 key={word.text}
