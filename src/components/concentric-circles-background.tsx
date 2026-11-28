@@ -28,14 +28,17 @@ type Ring = {
   shadePeak: number;
 };
 
-/** Flat cool field behind the discs — darker than outer ring body #E2E8F0. */
-export const FIELD_COLOR = "#9AABC0";
+/**
+ * Mid/lower page field — one soft step below outermost disc body #E2E8F0.
+ * Crown wash lifts gently brighter toward the top (see field-wash).
+ */
+export const FIELD_COLOR = "#D8E0EA";
 
 /**
- * Light-mode Neuronest: stacked paper discs on a flat cool blue-gray field
- * (FIELD_COLOR — clearly darker than the outermost disc body #E2E8F0).
- * Each inner disc body steps brighter so the layers read clearly. Soft shade
- * under the rim and dual shadows.
+ * Light-mode Neuronest: stacked paper discs on a cool blue-gray field
+ * (FIELD_COLOR mid/lower — a subtle step darker than outermost body #E2E8F0)
+ * with a gentle brighter crown wash. Each inner disc body steps brighter so
+ * the layers read clearly. Soft shade under the rim and dual shadows.
  */
 const RINGS: Ring[] = [
   {
@@ -312,6 +315,21 @@ export function ConcentricCirclesBackground() {
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
         <defs>
+          {/* Mid/lower FIELD_COLOR; soft crown lift — not flat, not blown white. */}
+          <linearGradient
+            id="field-wash"
+            gradientUnits="userSpaceOnUse"
+            x1={0}
+            y1={0}
+            x2={0}
+            y2={VIEW_H}
+          >
+            <stop offset="0" stopColor="#F1F5F9" />
+            <stop offset="0.14" stopColor="#E8EEF5" />
+            <stop offset="0.32" stopColor="#DEE6EF" />
+            <stop offset="0.5" stopColor={FIELD_COLOR} />
+            <stop offset="1" stopColor={FIELD_COLOR} />
+          </linearGradient>
           <filter
             id="dust-soft"
             x="-40%"
@@ -324,7 +342,7 @@ export function ConcentricCirclesBackground() {
           </filter>
         </defs>
 
-        <rect width={VIEW_W} height={VIEW_H} fill={FIELD_COLOR} />
+        <rect width={VIEW_W} height={VIEW_H} fill="url(#field-wash)" />
 
         <g filter="url(#dust-soft)">
           {DUST.map((d, i) => (

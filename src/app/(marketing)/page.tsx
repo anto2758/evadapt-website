@@ -17,7 +17,7 @@ const CIRCLES_LAYER_HEIGHT = `max(calc(100vw * ${CIRCLES_VIEW_H} / ${CIRCLES_VIE
 export default function MarketingPage() {
   return (
     <MarketingPageShell>
-      {/* Tall scroll page; flat field continues under the full 300vh (no hard cut). */}
+      {/* Tall scroll page; mid/lower field continues under the full 300vh (no hard cut). */}
       <div
         className="relative h-[300vh]"
         style={{ backgroundColor: FIELD_COLOR }}
