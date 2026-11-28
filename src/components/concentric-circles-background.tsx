@@ -24,8 +24,8 @@ type Ring = {
 /**
  * Light-mode Neuronest: stacked paper discs on a cool mid-blue field
  * (#E2E8F0 mid/lower) that washes brighter toward the top. Each inner disc
- * body is a slight step lighter than the one outside it — readable layers,
- * not a contrast jump. Soft shade under the rim and dual shadows.
+ * body steps twice as bright as the old #E2E8F0→#E6ECF3→#EAEEF5→#EEF2F7
+ * ladder so the layers read clearly. Soft shade under the rim and dual shadows.
  */
 const RINGS: Ring[] = [
   {
@@ -43,9 +43,9 @@ const RINGS: Ring[] = [
   },
   {
     r: 560,
-    lit: "#EAF0F6",
-    body: "#E6ECF3",
-    deep: "#E0E6F0",
+    lit: "#EEF4F9",
+    body: "#EAF0F6",
+    deep: "#E4EAF3",
     farBlur: 50,
     farOp: 0.028,
     nearBlur: 12,
@@ -56,9 +56,9 @@ const RINGS: Ring[] = [
   },
   {
     r: 405,
-    lit: "#EEF3F8",
-    body: "#EAEEF5",
-    deep: "#E4EAF1",
+    lit: "#F6F9FD",
+    body: "#F2F4FA",
+    deep: "#ECF0F6",
     farBlur: 36,
     farOp: 0.03,
     nearBlur: 10,
@@ -69,9 +69,9 @@ const RINGS: Ring[] = [
   },
   {
     r: 250,
-    lit: "#F2F6FA",
-    body: "#EEF2F7",
-    deep: "#E8EDF4",
+    lit: "#FEFFFF",
+    body: "#FAFCFE",
+    deep: "#F4F7FB",
     farBlur: 24,
     farOp: 0.03,
     nearBlur: 8,
