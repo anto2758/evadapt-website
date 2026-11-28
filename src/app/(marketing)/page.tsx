@@ -16,7 +16,6 @@ import {
   MarketingPageShell,
   useMarketingScrollContainer,
 } from "./_components/marketing-page-shell";
-import { MarketingPrimaryCta } from "./_components/marketing-primary-cta";
 
 const OVERLAY_LINE = [
   { text: "A", accent: false },
@@ -124,7 +123,7 @@ function HeroStage() {
             />
           </div>
           <main className="relative z-[2]">
-            <section className="px-6 pb-20 pt-[248px] text-center sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
+            <section className="px-6 pb-20 pt-[200px] text-center sm:px-12 sm:pb-28 sm:pt-[220px] lg:px-20">
               <h1 className="mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c2430] sm:text-[70px] lg:text-[88px]">
                 <span
                   className="italic tracking-normal"
@@ -148,13 +147,6 @@ function HeroStage() {
                   ML Lab exploration.
                 </span>
               </h1>
-              <div className="mt-9 flex justify-center">
-                <MarketingPrimaryCta
-                  label="Explore the lab"
-                  variant="raised"
-                  className="group relative inline-flex h-11 items-center justify-center gap-2"
-                />
-              </div>
             </section>
           </main>
         </motion.div>
