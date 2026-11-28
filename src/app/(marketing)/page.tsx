@@ -25,17 +25,18 @@ const OVERLAY_LINE = [
   { text: "learning.", accent: true },
 ] as const;
 
-/** Top corner radius; fade band is its diameter so the soft edge matches the round. */
+/** Top corner radius; fade band equals the radius (not diameter). */
 const OVERLAY_RADIUS_PX = 28;
-const OVERLAY_FADE_PX = OVERLAY_RADIUS_PX * 2;
+const OVERLAY_FADE_PX = OVERLAY_RADIUS_PX;
 /** Charcoal sheet fill — near-black, not pure black. */
 const OVERLAY_SHEET = "#1c1c1a";
 
+/** Cool blue keywords aligned with Evadapt ink (#1a4f8c), on dark charcoal. */
 const accentWordStyle = {
   fontFamily: "var(--font-lora)",
   fontStyle: "italic" as const,
   backgroundImage:
-    "linear-gradient(168deg, #ffd7a1 0%, #ff7e00 46%, #e24a00 100%)",
+    "linear-gradient(168deg, #b8d4f0 0%, #4a8fc8 46%, #1a4f8c 100%)",
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
   color: "transparent",
@@ -82,7 +83,6 @@ function HeroStage() {
     restDelta: 0.001,
   });
   const overlayY = useTransform(weightedScroll, [0, 1], ["93%", "0%"]);
-  const overlayOpacity = useTransform(weightedScroll, [0, 1], [0.8, 1]);
   const heroFilter = useTransform(weightedScroll, [0, 1], [
     "blur(0px)",
     "blur(16px)",
@@ -90,10 +90,16 @@ function HeroStage() {
 
   return (
     <div ref={trackRef} className="relative h-[220vh]">
-      <div className="sticky top-0 h-dvh overflow-hidden">
-        {/* Shared blur: circles + hero content fade together as the sheet rises. */}
+      <div className="sticky top-0 h-dvh overflow-hidden [contain:paint]">
+        {/* Shared blur: circles + hero. Own compositor layer so filter
+            animates a bitmap, not a live SVG+filter tree each frame. */}
         <motion.div
-          style={{ filter: heroFilter }}
+          style={{
+            filter: heroFilter,
+            transform: "translateZ(0)",
+            isolation: "isolate",
+            backfaceVisibility: "hidden",
+          }}
           className="absolute inset-0 z-10"
         >
           <ConcentricCirclesBackground />
@@ -135,13 +141,15 @@ function HeroStage() {
         <motion.div
           data-marketing-overlay
           style={{
+            // y already promotes a compositor layer (GPU transform path).
             y: overlayY,
-            opacity: overlayOpacity,
+            opacity: 1,
             borderRadius: `${OVERLAY_RADIUS_PX}px ${OVERLAY_RADIUS_PX}px 0 0`,
             backgroundImage: `linear-gradient(to bottom, transparent 0%, ${OVERLAY_SHEET} ${OVERLAY_FADE_PX}px)`,
             border: "none",
             outline: "none",
             boxShadow: "none",
+            backfaceVisibility: "hidden",
           }}
           className="absolute inset-0 z-20"
         >
