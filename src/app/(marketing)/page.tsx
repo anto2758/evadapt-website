@@ -93,13 +93,13 @@ function HeroStage() {
           <ConcentricCirclesBackground />
           <main className="relative">
             <section className="px-6 pb-20 pt-[248px] text-center sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
-              <h1 className="mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c1b18] sm:text-[70px] lg:text-[88px]">
+              <h1 className="mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c2430] sm:text-[70px] lg:text-[88px]">
                 <span
                   className="italic tracking-normal"
                   style={{
                     fontFamily: "var(--font-lora)",
                     fontStyle: "italic",
-                    color: "#c24e00",
+                    color: "#1a4f8c",
                   }}
                 >
                   Evadapt
@@ -107,7 +107,7 @@ function HeroStage() {
                 <span
                   style={{
                     backgroundImage:
-                      "linear-gradient(175deg, #1a1916 0%, #3c3934 52%, #6a655c 100%)",
+                      "linear-gradient(175deg, #171c24 0%, #3a4656 52%, #627388 100%)",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     color: "transparent",
