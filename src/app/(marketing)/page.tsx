@@ -25,21 +25,16 @@ const OVERLAY_LINE = [
   { text: "learning.", accent: true },
 ] as const;
 
-/** Top corner radius; fade band equals the radius (not diameter). */
+/** Top corner radius — hard opaque edge (no fade). */
 const OVERLAY_RADIUS_PX = 28;
-const OVERLAY_FADE_PX = OVERLAY_RADIUS_PX;
-/** Charcoal sheet fill — near-black, not pure black. */
-const OVERLAY_SHEET = "#1c1c1a";
+/** Solid white sheet — light mode only. */
+const OVERLAY_SHEET = "#ffffff";
 
-/** Cool blue keywords aligned with Evadapt ink (#1a4f8c), on dark charcoal. */
+/** Cool blue keywords (Lora italic) on the light sheet. */
 const accentWordStyle = {
   fontFamily: "var(--font-lora)",
   fontStyle: "italic" as const,
-  backgroundImage:
-    "linear-gradient(168deg, #b8d4f0 0%, #4a8fc8 46%, #1a4f8c 100%)",
-  WebkitBackgroundClip: "text",
-  backgroundClip: "text",
-  color: "transparent",
+  color: "#1a4f8c",
 };
 
 function OverlayWord({
@@ -145,7 +140,7 @@ function HeroStage() {
             y: overlayY,
             opacity: 1,
             borderRadius: `${OVERLAY_RADIUS_PX}px ${OVERLAY_RADIUS_PX}px 0 0`,
-            backgroundImage: `linear-gradient(to bottom, transparent 0%, ${OVERLAY_SHEET} ${OVERLAY_FADE_PX}px)`,
+            backgroundColor: OVERLAY_SHEET,
             border: "none",
             outline: "none",
             boxShadow: "none",
@@ -153,7 +148,7 @@ function HeroStage() {
           }}
           className="absolute inset-0 z-20"
         >
-          <p className="whitespace-nowrap px-6 pt-16 pb-4 text-left text-[clamp(1.25rem,4.2vw,3.25rem)] font-medium leading-[1.45] tracking-[-0.03em] text-[#f4f3ef] sm:px-12 sm:pt-20 lg:px-20">
+          <p className="whitespace-nowrap px-6 pt-16 pb-4 text-left text-[clamp(1.25rem,4.2vw,3.25rem)] font-medium leading-[1.45] tracking-[-0.03em] text-[#1c2a3d] sm:px-12 sm:pt-20 lg:px-20">
             {OVERLAY_LINE.map((word, index) => (
               <OverlayWord
                 key={word.text}
