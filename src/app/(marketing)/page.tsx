@@ -3,6 +3,7 @@
 import {
   CIRCLES_COVER_H,
   ConcentricCirclesBackground,
+  FIELD_COLOR,
   VIEW_H as CIRCLES_VIEW_H,
   VIEW_W as CIRCLES_VIEW_W,
 } from "@/components/concentric-circles-background";
@@ -16,8 +17,11 @@ const CIRCLES_LAYER_HEIGHT = `max(calc(100vw * ${CIRCLES_VIEW_H} / ${CIRCLES_VIE
 export default function MarketingPage() {
   return (
     <MarketingPageShell>
-      {/* Tall scroll page; graphic scrolls with the page (not sticky). */}
-      <div className="relative h-[300vh]">
+      {/* Tall scroll page; flat field continues under the full 300vh (no hard cut). */}
+      <div
+        className="relative h-[300vh]"
+        style={{ backgroundColor: FIELD_COLOR }}
+      >
         {/* Full discs at first-viewport cover scale; taller than dvh so arches complete. */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 z-0 w-full"

@@ -28,12 +28,14 @@ type Ring = {
   shadePeak: number;
 };
 
+/** Flat cool field behind the discs — darker than outer ring body #E2E8F0. */
+export const FIELD_COLOR = "#9AABC0";
+
 /**
- * Light-mode Neuronest: stacked paper discs on a cool blue-gray field
- * (#D6DEE8 mid/lower — a step darker than the outermost disc body #E2E8F0)
- * that washes brighter toward the top. Each inner disc body steps twice as
- * bright as the old #E2E8F0→#E6ECF3→#EAEEF5→#EEF2F7 ladder so the layers
- * read clearly. Soft shade under the rim and dual shadows.
+ * Light-mode Neuronest: stacked paper discs on a flat cool blue-gray field
+ * (FIELD_COLOR — clearly darker than the outermost disc body #E2E8F0).
+ * Each inner disc body steps brighter so the layers read clearly. Soft shade
+ * under the rim and dual shadows.
  */
 const RINGS: Ring[] = [
   {
@@ -310,21 +312,6 @@ export function ConcentricCirclesBackground() {
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
         <defs>
-          {/* Mid/lower #D6DEE8 (darker than outer ring); crown lifts to cool blue-white. */}
-          <linearGradient
-            id="field-wash"
-            gradientUnits="userSpaceOnUse"
-            x1={0}
-            y1={0}
-            x2={0}
-            y2={VIEW_H}
-          >
-            <stop offset="0" stopColor="#F8FAFC" />
-            <stop offset="0.16" stopColor="#F1F5F9" />
-            <stop offset="0.36" stopColor="#E0E7F0" />
-            <stop offset="0.55" stopColor="#D6DEE8" />
-            <stop offset="1" stopColor="#D6DEE8" />
-          </linearGradient>
           <filter
             id="dust-soft"
             x="-40%"
@@ -337,7 +324,7 @@ export function ConcentricCirclesBackground() {
           </filter>
         </defs>
 
-        <rect width={VIEW_W} height={VIEW_H} fill="url(#field-wash)" />
+        <rect width={VIEW_W} height={VIEW_H} fill={FIELD_COLOR} />
 
         <g filter="url(#dust-soft)">
           {DUST.map((d, i) => (

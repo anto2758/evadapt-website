@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
 
+import { FIELD_COLOR } from "@/components/concentric-circles-background";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -25,7 +26,10 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-full overflow-hidden bg-[#D6DEE8] text-[#1c1b18]">
+    <div
+      className="h-full overflow-hidden overscroll-none text-[#1c1b18]"
+      style={{ backgroundColor: FIELD_COLOR }}
+    >
       <main className="h-full">{children}</main>
     </div>
   );

@@ -27,7 +27,8 @@
 }
 
 body {
-  background: hsl(var(--background));
+  /* Cool marketing field — never dark rubber-band chrome above the page. */
+  background: #9aabc0;
   color: hsl(var(--foreground));
   /* next/font registers a hashed family on --font-inter; bare "Inter" is
      not that face, so Safari falls through to Times. */
@@ -47,7 +48,12 @@ body,
   overflow: hidden;
   scroll-behavior: smooth !important;
   overscroll-behavior: none;
+  overscroll-behavior-y: none;
   outline: none;
+}
+
+html {
+  background: #9aabc0;
 }
 
 body,

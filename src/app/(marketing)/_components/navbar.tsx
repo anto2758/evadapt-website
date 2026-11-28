@@ -21,21 +21,21 @@ export const Navbar = ({ scrolled }: NavbarProps) => {
       aria-label="Main"
       style={{ isolation: "isolate" }}
     >
-      {/* Inner wrapper that becomes a box on scroll */}
+      {/* Inner wrapper: flat/transparent at top; outlined floating pill when scrolled. */}
       <div
         className={[
-          "border",
+          "border transition-[margin,width,border-radius,background-color,box-shadow,backdrop-filter] duration-300 ease-out",
           scrolled
             ? [
                 "mx-4 mt-4 w-[calc(100%-2rem)] soft-small-shadow",
                 "rounded-2xl border-black/10 bg-white/75 backdrop-blur-xl",
               ].join(" ")
-            : "mx-0 mt-0 w-full rounded-none border-transparent bg-transparent shadow-none",
+            : "mx-0 mt-0 w-full rounded-none border-transparent bg-transparent shadow-none backdrop-blur-none",
         ].join(" ")}
       >
         <div
           className={[
-            "grid grid-cols-[auto_1fr_auto] items-center w-full",
+            "grid grid-cols-[auto_1fr_auto] items-center w-full transition-all duration-300",
             scrolled ? "px-3 py-3" : "px-4 py-4",
           ].join(" ")}
         >

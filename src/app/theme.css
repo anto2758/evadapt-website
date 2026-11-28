@@ -1,6 +1,7 @@
 /* Shared workspace colors used by the marketing header and hero. */
 :root {
-  color-scheme: dark;
+  /* Light scheme so overscroll chrome matches the cool field, not black. */
+  color-scheme: light;
   --surface: #1c1c1a;
   --raised: #262622;
   --chrome: #141412;
