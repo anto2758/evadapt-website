@@ -25,7 +25,7 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-full overflow-hidden bg-[#EDEDED] text-[#1c1b18]">
+    <div className="h-full overflow-hidden bg-[#E2E8F0] text-[#1c1b18]">
       <main className="h-full">{children}</main>
     </div>
   );

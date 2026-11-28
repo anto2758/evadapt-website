@@ -15,7 +15,7 @@ import {
 
 import { Navbar } from "./navbar";
 
-export const DEFAULT_MARKETING_BACKGROUND = "#EDEDED";
+export const DEFAULT_MARKETING_BACKGROUND = "#E2E8F0";
 
 export const MarketingScrollContext =
   createContext<RefObject<HTMLDivElement | null> | null>(null);
@@ -83,7 +83,7 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
         <div className="relative h-full min-h-0 w-full">
           <div
             aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#EDEDED] transition-[background-color] duration-[600ms] ease-out"
+            className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#E2E8F0] transition-[background-color] duration-[600ms] ease-out"
             style={{ backgroundColor: background }}
           />
           <div

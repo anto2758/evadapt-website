@@ -22,62 +22,63 @@ type Ring = {
 };
 
 /**
- * Light-mode Neuronest: stacked paper discs on #EDEDED with a center-bright
- * white rim light, soft shade falloff under the rim, and precise dual shadows.
- * Bodies stay a step below white so the rim catch-light is visible.
+ * Light-mode Neuronest: stacked paper discs on a flat cool blue-grey field
+ * (#E2E8F0 — mid-ring blue carried all the way to the top). Soft shade
+ * falloff under the rim and dual shadows. Lit faces stay close to body so
+ * the upper field does not wash out into a whitish crown.
  */
 const RINGS: Ring[] = [
   {
     r: 720,
-    lit: "#F0F0F0",
-    body: "#EDEDED",
-    deep: "#EAEAEA",
+    lit: "#E6EBF3",
+    body: "#E2E8F0",
+    deep: "#DCE3ED",
     farBlur: 64,
-    farOp: 0.02,
+    farOp: 0.026,
     nearBlur: 14,
-    nearOp: 0.018,
+    nearOp: 0.024,
     rimPeak: 0.85,
     rimWidth: 2.8,
-    shadePeak: 0.07,
-  },
-  {
-    r: 560,
-    lit: "#F2F2F2",
-    body: "#EFEFEF",
-    deep: "#EBEBEB",
-    farBlur: 50,
-    farOp: 0.022,
-    nearBlur: 12,
-    nearOp: 0.02,
-    rimPeak: 0.92,
-    rimWidth: 2.5,
     shadePeak: 0.08,
   },
   {
+    r: 560,
+    lit: "#E8EDF4",
+    body: "#E4EAF1",
+    deep: "#DEE5EF",
+    farBlur: 50,
+    farOp: 0.028,
+    nearBlur: 12,
+    nearOp: 0.026,
+    rimPeak: 0.92,
+    rimWidth: 2.5,
+    shadePeak: 0.09,
+  },
+  {
     r: 405,
-    lit: "#F5F5F5",
-    body: "#F1F1F1",
-    deep: "#EDEDED",
+    lit: "#EBF0F6",
+    body: "#E7ECF3",
+    deep: "#E2E8F0",
     farBlur: 36,
-    farOp: 0.024,
+    farOp: 0.03,
     nearBlur: 10,
-    nearOp: 0.022,
+    nearOp: 0.028,
     rimPeak: 0.95,
     rimWidth: 2.2,
-    shadePeak: 0.085,
+    shadePeak: 0.095,
   },
   {
     r: 250,
-    lit: "#F8F8F8",
-    body: "#F3F3F3",
-    deep: "#EFEFEF",
+    lit: "#EEF2F7",
+    body: "#EAEFF5",
+    deep: "#E4EAF1",
     farBlur: 24,
-    farOp: 0.024,
+    farOp: 0.03,
     nearBlur: 8,
-    nearOp: 0.024,
+    nearOp: 0.03,
     rimPeak: 0.8,
     rimWidth: 1.8,
-    shadePeak: 0.07,
+    shadePeak: 0.08,
   },
 ]
 
@@ -147,10 +148,10 @@ function shadowOnlyFilter(
       />
       <feOffset dy={dy} in="hard" />
       <feGaussianBlur stdDeviation={blur} result="blurred" />
-      {/* Cool desaturated slate-blue ambient — very soft, no gray stair steps. */}
+      {/* Cool blue ambient — saturated enough to read under the light field. */}
       <feColorMatrix
         type="matrix"
-        values={`0 0 0 0 0.22  0 0 0 0 0.28  0 0 0 0 0.38  0 0 0 ${opacity} 0`}
+        values={`0 0 0 0 0.10  0 0 0 0 0.30  0 0 0 0 0.58  0 0 0 ${opacity} 0`}
         result="shadow"
       />
       <feMerge>
@@ -226,7 +227,7 @@ function Disc({ ring, index }: { ring: Ring; index: number }) {
         </radialGradient>
 
         {centerFadeStops(rimGradId, "#FFFFFF", ring.rimPeak, ring.r / 720)}
-        {centerFadeStops(shadeGradId, "#5a6a7a", ring.shadePeak, ring.r / 720)}
+        {centerFadeStops(shadeGradId, "#3d5f82", ring.shadePeak, ring.r / 720)}
 
         <filter
           id={rimBlurId}
@@ -301,11 +302,6 @@ export function ConcentricCirclesBackground() {
         className="pointer-events-none absolute inset-0 h-full w-full"
       >
         <defs>
-          <linearGradient id="field-wash" x1="0" y1="0" x2="0" y2={VIEW_H}>
-            <stop offset="0" stopColor="#EAEAEA" />
-            <stop offset="0.4" stopColor="#EDEDED" />
-            <stop offset="1" stopColor="#EFEFEF" />
-          </linearGradient>
           <filter
             id="dust-soft"
             x="-40%"
@@ -318,7 +314,8 @@ export function ConcentricCirclesBackground() {
           </filter>
         </defs>
 
-        <rect width={VIEW_W} height={VIEW_H} fill="url(#field-wash)" />
+        {/* Flat mid-ring blue to the top — no brighter crown. */}
+        <rect width={VIEW_W} height={VIEW_H} fill="#E2E8F0" />
 
         <g filter="url(#dust-soft)">
           {DUST.map((d, i) => (
@@ -327,7 +324,7 @@ export function ConcentricCirclesBackground() {
               cx={d.x}
               cy={d.y}
               r={d.r}
-              fill="#3a3732"
+              fill="#2e3642"
               fillOpacity={d.o}
             />
           ))}
