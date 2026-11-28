@@ -13,8 +13,6 @@ import {
   type SetStateAction,
 } from "react";
 
-import { ConcentricCirclesBackground } from "@/components/concentric-circles-background";
-
 import { Navbar } from "./navbar";
 
 export const DEFAULT_MARKETING_BACKGROUND = "#EDEDED";
@@ -87,9 +85,7 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
             aria-hidden="true"
             className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#EDEDED] transition-[background-color] duration-[600ms] ease-out"
             style={{ backgroundColor: background }}
-          >
-            <ConcentricCirclesBackground />
-          </div>
+          />
           <div
             ref={scrollSurfaceRef}
             data-marketing-page-scroll-surface

@@ -9,6 +9,8 @@ import {
   type MotionValue,
 } from "framer-motion";
 
+import { ConcentricCirclesBackground } from "@/components/concentric-circles-background";
+
 import {
   MarketingPageShell,
   useMarketingScrollContainer,
@@ -83,8 +85,13 @@ function HeroStage() {
   return (
     <div ref={trackRef} className="relative h-[220vh]">
       <div className="sticky top-0 h-dvh overflow-hidden">
-        <motion.div style={{ filter: heroFilter }} className="relative z-10">
-          <main>
+        {/* Shared blur: circles + hero content fade together as the sheet rises. */}
+        <motion.div
+          style={{ filter: heroFilter }}
+          className="absolute inset-0 z-10"
+        >
+          <ConcentricCirclesBackground />
+          <main className="relative">
             <section className="px-6 pb-20 pt-[248px] text-center sm:px-12 sm:pb-28 sm:pt-[268px] lg:px-20">
               <h1 className="mx-auto max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.055em] text-[#1c1b18] sm:text-[70px] lg:text-[88px]">
                 <span

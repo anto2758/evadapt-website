@@ -81,16 +81,6 @@ const RINGS: Ring[] = [
   },
 ]
 
-/** Sparse orbiting accents along the lit horizon — opacity fade, constant width. */
-const RIM_LIGHTS = [
-  { r: 560, duration: 96, phase: -70, arcDeg: 9 },
-  { r: 405, duration: 80, phase: -22, arcDeg: 10 },
-  { r: 250, duration: 68, phase: -118, arcDeg: 11 },
-] as const;
-
-const LIGHT_HALF_WIDTH = 0.5;
-const LIGHT_OUTWARD = 2.6;
-
 const DUST: Array<{ x: number; y: number; r: number; o: number }> = [
   { x: 155, y: 72, r: 1.25, o: 0.11 },
   { x: 285, y: 125, r: 0.75, o: 0.075 },
@@ -128,48 +118,6 @@ function arcPath(r: number, startDeg: number, endDeg: number): string {
   const large = delta > 180 ? 1 : 0;
   const sweep = endDeg > startDeg ? 1 : 0;
   return `M ${x1} ${y1} A ${r} ${r} 0 ${large} ${sweep} ${x2} ${y2}`;
-}
-
-function buildRimLightPath(
-  r: number,
-  arcDeg: number,
-  halfWidth: number,
-  outward: number,
-  steps = 32,
-): { d: string; headX: number; headY: number; tailX: number; tailY: number } {
-  const pathR = r + outward;
-  const outer: Array<[number, number]> = [];
-  const inner: Array<[number, number]> = [];
-  const toRad = (deg: number) => (deg * Math.PI) / 180;
-
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps;
-    const ang = toRad(-t * arcDeg);
-    const cos = Math.cos(ang);
-    const sin = Math.sin(ang);
-    outer.push([
-      CX + (pathR + halfWidth) * cos,
-      CY + (pathR + halfWidth) * sin,
-    ]);
-    inner.push([
-      CX + (pathR - halfWidth) * cos,
-      CY + (pathR - halfWidth) * sin,
-    ]);
-  }
-
-  let d = `M ${outer[0][0]} ${outer[0][1]}`;
-  for (let i = 1; i < outer.length; i++) d += ` L ${outer[i][0]} ${outer[i][1]}`;
-  for (let i = inner.length - 1; i >= 0; i--) d += ` L ${inner[i][0]} ${inner[i][1]}`;
-  d += " Z";
-
-  const tailAng = toRad(-arcDeg);
-  return {
-    d,
-    headX: CX + pathR,
-    headY: CY,
-    tailX: CX + pathR * Math.cos(tailAng),
-    tailY: CY + pathR * Math.sin(tailAng),
-  };
 }
 
 function shadowOnlyFilter(
@@ -339,55 +287,6 @@ function Disc({ ring, index }: { ring: Ring; index: number }) {
   );
 }
 
-function RimLight({
-  r,
-  duration,
-  phase,
-  arcDeg,
-}: {
-  r: number;
-  duration: number;
-  phase: number;
-  arcDeg: number;
-}) {
-  const gradId = `orbit-${r}-${phase}`.replace(".", "_");
-  const { d, headX, headY, tailX, tailY } = buildRimLightPath(
-    r,
-    arcDeg,
-    LIGHT_HALF_WIDTH,
-    LIGHT_OUTWARD,
-  );
-
-  return (
-    <g transform={`rotate(${phase} ${CX} ${CY})`}>
-      <animateTransform
-        attributeName="transform"
-        type="rotate"
-        from={`${phase} ${CX} ${CY}`}
-        to={`${phase + 360} ${CX} ${CY}`}
-        dur={`${duration}s`}
-        repeatCount="indefinite"
-      />
-      <defs>
-        <linearGradient
-          id={gradId}
-          gradientUnits="userSpaceOnUse"
-          x1={headX}
-          y1={headY}
-          x2={tailX}
-          y2={tailY}
-        >
-          <stop offset="0" stopColor="#141310" stopOpacity="0.58" />
-          <stop offset="0.28" stopColor="#141310" stopOpacity="0.44" />
-          <stop offset="0.62" stopColor="#141310" stopOpacity="0.15" />
-          <stop offset="1" stopColor="#141310" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d={d} fill={`url(#${gradId})`} />
-    </g>
-  );
-}
-
 export function ConcentricCirclesBackground() {
   return (
     <>
@@ -436,16 +335,6 @@ export function ConcentricCirclesBackground() {
 
         {RINGS.map((ring, index) => (
           <Disc key={ring.r} ring={ring} index={index} />
-        ))}
-
-        {RIM_LIGHTS.map((light) => (
-          <RimLight
-            key={`${light.r}-${light.phase}`}
-            r={light.r}
-            duration={light.duration}
-            phase={light.phase}
-            arcDeg={light.arcDeg}
-          />
         ))}
       </svg>
       <div
