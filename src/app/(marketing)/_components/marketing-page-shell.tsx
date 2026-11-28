@@ -14,7 +14,7 @@ import {
 
 import { Navbar } from "./navbar";
 
-export const DEFAULT_MARKETING_BACKGROUND = "#E2E8F0";
+export const DEFAULT_MARKETING_BACKGROUND = "#D6DEE8";
 
 type MarketingPageTheme = {
   background: string;
@@ -73,7 +73,7 @@ export function MarketingPageShell({ children }: { children: ReactNode }) {
             backgroundColor: background,
             backgroundImage:
               background === DEFAULT_MARKETING_BACKGROUND
-                ? "linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 16%, #E8EDF4 36%, #E2E8F0 55%, #E2E8F0 100%)"
+                ? "linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 16%, #E0E7F0 36%, #D6DEE8 55%, #D6DEE8 100%)"
                 : undefined,
           }}
         />
